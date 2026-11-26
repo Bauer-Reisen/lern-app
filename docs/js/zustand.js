@@ -6,7 +6,7 @@ import { Alltag } from './kern/hochstufung.js';
 import { neuerTest, neuerAlltag, T_APP, H_APP } from './ablauf.js';
 import { neuesHeft } from './heft.js';
 
-export const APP_VERSION = '1.4.0';
+export const APP_VERSION = '1.5.0';
 export const KINDER = ['insel', 'sternwarte'];
 // Zwei neutrale Profile: „insel“ (jüngeres Kind: große Knöpfe, alles wird vorgelesen) und „sternwarte“ (älteres Kind).
 // Die Namen trägt ein Elternteil bei der Einrichtung auf dem Gerät ein – sie stehen nie im Code.

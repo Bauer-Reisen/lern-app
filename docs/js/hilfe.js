@@ -5,7 +5,7 @@ import { BAU } from './version.js';
 
 const N = (k) => KIND_INFO[k].name;
 const tour = () => [
-  ['Willkommen!', `Diese App übt mit ${N('insel')} und ${N('sternwarte')} Mathe, Lesen sowie Logik und Knobeln – jeden Tag ein bisschen, immer passend zum eigenen Können. Alles bleibt auf diesem Gerät. Es gibt kein Konto und keine Werbung. Weitere Fächer (Geometrie, Rechtschreibung, Englisch) kommen nach und nach dazu.`],
+  ['Willkommen!', `Diese App übt mit ${N('insel')} und ${N('sternwarte')} Mathe, Lesen, Logik und Knobeln sowie Geometrie und Daten – jeden Tag ein bisschen, immer passend zum eigenen Können. Alles bleibt auf diesem Gerät. Es gibt kein Konto und keine Werbung. Weitere Fächer (Rechtschreibung, Englisch) kommen nach und nach dazu.`],
   ['Zwei eigene Welten', `${N('insel')} hat „Die Insel“ mit dem Fuchs Funki: große Knöpfe, alles wird vorgelesen. ${N('sternwarte')} hat „Die Sternwarte“. Jedes Kind öffnet seine Welt mit einem Bilder-Code und sieht nur sich selbst.`],
   ['Zuerst die Expedition', 'An den ersten Tagen findet die App heraus, was jedes Kind schon kann. Das dauert mehrere kurze Tage. Es gibt dabei kein Richtig oder Falsch – Raten, Müdigkeit und schlechte Tage erkennt die App selbst.'],
   ['Dann jeden Tag eine Runde', `${N('insel')} übt etwa 10 Minuten, ${N('sternwarte')} etwa 18. Die Runde endet immer nach einer gelösten Aufgabe. Danach gibt es keinen „Weiter"-Knopf. Ruhetage und Abendruhe sind eingestellt.`],
@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.5.0', punkte: ['Neu: Geometrie und Daten (Formen und Körper, Würfel, Symmetrie, Drehungen, Winkel, Koordinaten, Maßstab, Tabellen und Diagramme, Zentralwert, Wahrscheinlichkeit). Pro Runde 1–2 Aufgaben, die sich dem Kind anpassen.', 'Im Elternbereich gibt es dafür einen eigenen Wert. Auf Mathe und Lesen wirkt er sich nicht aus.'] },
   { version: '1.4.0', punkte: ['Neu: Logik und Knobeln (Bilderfolgen, „Was passt nicht?“, Analogien, Zahlenquadrate, Rätsel). In jeder Runde kommen 2–3 Knobel-Aufgaben dran, die sich dem Kind anpassen.', 'Im Elternbereich steht Logik und Knobeln als eigener Wert. Am Anfang ist er noch grob, und auf Mathe und Lesen wirkt er sich nicht aus.'] },
   { version: '1.3.1', punkte: ['Lesefragen: Die Lösung zeigt jetzt die passende Stelle im Text.'] },
   { version: '1.3.0', punkte: ['Die Namen und Klassen der Kinder trägst du einmal selbst ein (Elternbereich → Einstellungen → „Namen und Klassen ändern“). Sie bleiben nur auf diesem Gerät. Die Klasse steigt jedes Schuljahr von allein.', 'Zahlenfolgen: Die Erklärung nennt jetzt die Regel. Sachaufgaben mit besser passenden Verben.', 'Erneutes Vorlesen (🔊) hält die Zeit an. „Geht nicht – es fehlt …“ nur noch bei Geschichten. Nach 3 falschen Bilder-Codes kurz warten; Warnung bei gleichem Code.', 'Elternbereich: Zusatzwerte (z. B. Hören neben dem Lesen) sind als grob gekennzeichnet.'] },
