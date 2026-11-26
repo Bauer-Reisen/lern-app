@@ -134,8 +134,8 @@ export function zeigeAufgabe(ziel, auf, opt) {
       return;
     }
     // zweiter Fehler: Lösung zeigen
-    rueck.appendChild(h('div', { class: 'rueck loesung' }, h('strong', null, 'Lösung: ' + loesungText(auf)), h('br'), auf.erklaerung || ''));
-    if (kind === 'insel') sprich('Die Lösung ist ' + loesungText(auf) + '. ' + (auf.erklaerung || ''));
+    rueck.appendChild(h('div', { class: 'rueck loesung' }, h('strong', null, 'Lösung: ' + loesungText(auf)), h('br'), erklaerungText(auf)));
+    if (kind === 'insel') sprich('Die Lösung ist ' + loesungText(auf) + '. ' + erklaerungText(auf));
     for (const b of eingabe.querySelectorAll('button, input')) b.disabled = true;
     weiterKnopf({ x: 0, t, eingabe: e });
   }
@@ -155,6 +155,19 @@ export function zeigeAufgabe(ziel, auf, opt) {
   }
 }
 
+// Kurze Erklärung; bei Lesefragen ohne eigene Erklärung die passende Textstelle (Befund 11)
+export function erklaerungText(auf) {
+  if (auf.erklaerung) return auf.erklaerung;
+  if (!(auf.skala === 'LV' || auf.skala === 'HV') || !auf.text) return '';
+  const loes = loesungText(auf);
+  if (/nicht im Text/i.test(loes)) return 'Im Text steht dazu nichts.';
+  let t = auf.text; if (auf.frage && t.endsWith(auf.frage)) t = t.slice(0, -auf.frage.length);
+  const saetze = t.split(/(?<=[.!?])s+/).map(x => x.trim()).filter(Boolean);
+  const woerter = loes.toLowerCase().split(/[^a-zäöüß0-9]+/).filter(w => w.length > 2);
+  let best = null, bestN = 0;
+  for (const sz of saetze) { const l = sz.toLowerCase(); const n = woerter.filter(w => l.includes(w)).length; if (n > bestN) { best = sz; bestN = n; } }
+  return best && saetze.length > 1 ? 'Im Text steht: „' + best + '“' : '';
+}
 export function loesungText(auf) {
   if (auf.fehlt) return 'Es fehlt, ' + auf.fehlt.richtig + '.';
   if (auf.art === 'wahl') return String(auf.wahl[auf.antwort]);

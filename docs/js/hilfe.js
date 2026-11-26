@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.3.1', punkte: ['Lesefragen: Die Lösung zeigt jetzt die passende Stelle im Text.'] },
   { version: '1.3.0', punkte: ['Die Namen und Klassen der Kinder trägst du einmal selbst ein (Elternbereich → Einstellungen → „Namen und Klassen ändern“). Sie bleiben nur auf diesem Gerät. Die Klasse steigt jedes Schuljahr von allein.', 'Zahlenfolgen: Die Erklärung nennt jetzt die Regel. Sachaufgaben mit besser passenden Verben.', 'Erneutes Vorlesen (🔊) hält die Zeit an. „Geht nicht – es fehlt …“ nur noch bei Geschichten. Nach 3 falschen Bilder-Codes kurz warten; Warnung bei gleichem Code.', 'Elternbereich: Zusatzwerte (z. B. Hören neben dem Lesen) sind als grob gekennzeichnet.'] },
   { version: '1.2.0', punkte: ['Neu für die Sternwarte: Mathe-Aufgaben werden automatisch vorgelesen (im Elternbereich abschaltbar). Lesen-Aufgaben liest das Kind weiter selbst.', 'Genauere Messung: schnelle richtige Antworten während des Vorlesens gelten nicht mehr als geraten. Rundenzeit zählt jetzt die ganze Zeit am Bildschirm (ohne Heft).', 'Elternbereich: Tempo wird angezeigt, Klassenangaben „vor Klasse 1“/„über Klasse 9“, Hinweis bei zu vielen schnellen Antworten.'] },
   { version: '1.1.0', punkte: ['Neu: Heft-Bausteine – Heft-Aufgabe, Merk-Seite am Ende, Abruf aus dem Kopf, Wochenrückblick; auf der Insel Schreibaufgaben an Lesetagen.', 'Heft-Zeit zählt nicht zur Bildschirmzeit und nicht ins Tempo. Elternbereich: Papierzeit, Behaltensquote, Einstellung je Kind.'] },

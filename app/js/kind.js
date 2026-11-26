@@ -2,7 +2,7 @@
 import { h, knopf, zeige, welt, dialog, einmal } from './ui.js';
 import { z, sichere, KIND_INFO, holeTest, sichereTest, holeAlltag, sichereAlltag, testFertigMachen, heute, appTag, holeBank, datumText } from './zustand.js';
 import { aufgabeAus, neueSitzung, naechsterAuftrag, verbucheAntwort, fehlerArt, bildSek } from './ablauf.js';
-import { zeigeAufgabe, loesungText } from './aufgabe.js';
+import { zeigeAufgabe, loesungText, erklaerungText } from './aufgabe.js';
 import { weltSvg, FUCHS, TELESKOP } from './welten.js';
 import { sprich } from './sprache.js';
 import { HEFT_NAME, heftPassend, sitzungsMinuten, wochenSchluessel, RUECKBLICK_FRAGEN, schreibAuftrag, heftTexte } from './heft.js';
@@ -232,9 +232,9 @@ function zeigeBeispiel(k, kopf, auftrag) {
   const it = node.items[Math.floor(node.items.length / 3)];
   const auf = it.a;
   zeige(kopf, h('div', { class: 'karte' }, h('h2', null, 'So geht es – ein Beispiel'), h('p', null, auf.text || ''), auf.frage ? h('p', { class: 'frage' }, auf.frage) : null,
-    h('div', { class: 'rueck loesung' }, h('strong', null, 'Lösung: ' + loesungText(auf)), h('br'), auf.erklaerung || '')),
+    h('div', { class: 'rueck loesung' }, h('strong', null, 'Lösung: ' + loesungText(auf)), h('br'), erklaerungText(auf))),
     knopf('Verstanden ➜', () => { K.sitzung.zust.zeit += 45; K.sitzung.zust.bild = bildSek(K.sitzung.zust) + 45; sichere(); naechsteUebung(k); }, 'breit'));
-  if (k === 'insel') sprich('Ein Beispiel. ' + (auf.text || '') + ' Die Lösung ist ' + loesungText(auf) + '. ' + (auf.erklaerung || ''));
+  if (k === 'insel') sprich('Ein Beispiel. ' + (auf.text || '') + ' Die Lösung ist ' + loesungText(auf) + '. ' + erklaerungText(auf));
 }
 function sitzungEnde(k) {
   const K = z().kinder[k], S = K.sitzung, app = holeAlltag(k);
