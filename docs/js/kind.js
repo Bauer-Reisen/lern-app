@@ -199,7 +199,7 @@ function naechsteUebung(k) {
   const heft = E.heft && heftPassend(app, auftrag, k, zust);
   if (heft) { zust.heftGemacht = true; sichere(); }
   const flaeche = h('div');
-  const teilText = auftrag.a.transfer ? (k === 'insel' ? 'Knobel-Aufgabe' : 'Transfer: ' + (auf.typ === 'sort' ? 'Struktur erkennen' : 'neue Verkleidung')) : null;
+  const teilText = auftrag.a.teil === 'knobel' ? (k === 'insel' ? 'Rätsel' : 'Logik und Knobeln') : auftrag.a.transfer ? (k === 'insel' ? 'Knobel-Aufgabe' : 'Transfer: ' + (auf.typ === 'sort' ? 'Struktur erkennen' : 'neue Verkleidung')) : null;
   const stelle = () => {
   zeige(kopf, teilText ? h('p', { class: 'leise' }, teilText) : null, heft ? h('p', { class: 'leise' }, 'Jetzt das Ergebnis aus deinem ' + HEFT_NAME[k] + ' eintippen.') : null, auftrag.a.transfer && auf.typ ? einmal('transfer-' + k + '-' + auf.typ, auf.hinweis) : null, flaeche);
   const aufStart = Date.now(); // ab hier Bildschirmzeit (nach der Heft-Pause)

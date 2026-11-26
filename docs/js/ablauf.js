@@ -8,6 +8,7 @@ import { leseTransfer } from './inhalte/lesen.js';
 import { rngAus } from './inhalte/werkzeug.js';
 import { heftNeutralT } from './heft.js';
 import { istGeraten } from './kern/modell.js';
+import { knobelAuftrag, knobelVerbuche } from './kern/knobel.js';
 
 export { T_APP, H_APP };
 export const KLASSE = { insel: 1, sternwarte: 4 };
@@ -73,6 +74,7 @@ export function planeSitzung(kind, wd, sitzungNr, app) {
     for (let i = 0; i < (mathe ? 12 : 8); i++) plan.push({ teil: 'grund' });
     for (const x of app.pruefAufgabenHeute()) plan.push({ teil: 'kt', ...x });
     for (let i = 0; i < 3; i++) plan.push({ teil: 'abruf', bereich: mathe ? 'M' : 'L' });
+    for (let i = 0; i < 2; i++) plan.push({ teil: 'knobel' }); // Stufe 2: Logik und Knobeln
     if (mathe) { for (let i = 0; i < 4; i++) plan.push({ teil: 'neu', bereich: 'M' }); for (let i = 0; i < 3; i++) plan.push({ teil: 'transfer', p: 0.75 }); }
     else { for (let i = 0; i < 4; i++) plan.push({ teil: 'lesen', bereich: 'L' }); plan.push({ teil: 'transfer', p: 0.75 }); }
     plan.push({ teil: 'schluss', bereich: mathe ? 'M' : 'L' });
@@ -82,6 +84,7 @@ export function planeSitzung(kind, wd, sitzungNr, app) {
     for (let i = 0; i < 4; i++) plan.push({ teil: 'abruf', bereich: null });
     for (let i = 0; i < 4; i++) plan.push({ teil: 'neu', bereich: 'M' });
     for (let i = 0; i < 2; i++) plan.push({ teil: 'neu', bereich: 'L' });
+    for (let i = 0; i < 3; i++) plan.push({ teil: 'knobel' }); // Stufe 2: Logik und Knobeln
     plan.push({ teil: 'transfer', p: 0.70, typ: 'ueb' });
     if (sitzungNr % 2 === 0) plan.push({ teil: 'transfer', p: 0.70, typ: 'feh' });
     while (plan.filter(p => p.teil === 'transfer').length < 6) plan.push({ teil: 'transfer', p: 0.70 });
@@ -105,7 +108,8 @@ export function naechsterAuftrag(app, zust) {
       if (it) { const n = app.knoten.find(x => x.bereich === p.bereich && !x.tempo && x.k === it.knoten); return { a: { item: it, node: n, teil: 'kt', kt: p.kt, bereich: p.bereich }, p }; }
       continue;
     }
-    if (p.teil === 'grund') a = app.waehleGrundlage();
+    if (p.teil === 'knobel') a = knobelAuftrag(app, Math.max(5, thetaZuLs(app.bereiche.M.theta, 'M') - 5));
+    else if (p.teil === 'grund') a = app.waehleGrundlage();
     else if (p.teil === 'abruf') { a = app.waehleAbruf(p.bereich ? [p.bereich] : null); if (!a) a = app.waehleNeu(p.bereich || 'M'); }
     else if (p.teil === 'neu' || p.teil === 'lesen') a = app.waehleNeu(p.bereich);
     else if (p.teil === 'transfer') a = app.waehleTransfer(p.typ || null, p.p);
@@ -124,6 +128,11 @@ export function verbucheAntwort(app, zust, auftrag, r, kind) {
     const geraten = istGeraten(r, app.tRapid(a.item));
     app.ktAntwort(a.bereich, a.kt, a.item, r.wn ? 0 : r.x, geraten ? 0.25 : 1);
     zust.zeit += r.t; zust.bild = bildSek(zust) - r.t + (r.tBild != null ? r.tBild : r.t);
+    return {};
+  }
+  if (a.teil === 'knobel') {
+    knobelVerbuche(app, a.item, r.wn ? 0 : r.x, r.t, app.heute || 0);
+    zust.zeit += r.t; zust.bild = bildSek(zust) + (r.tBild != null ? r.tBild : r.t);
     return {};
   }
   if (r.heft) {
@@ -169,7 +178,7 @@ export function neueSitzung(kind, wd, sitzungNr, app) {
 }
 
 // ---------- Elternbericht aus Testergebnis / Alltag ----------
-const SKALA_NAME = { RE: 'Rechnen', SA: 'Sachrechnen', LV: 'Lesen (selbst gelesen)', HV: 'Hörverstehen (vorgelesen)', GA: 'Grundaufgaben' };
+const SKALA_NAME = { KN: 'Logik und Knobeln', RE: 'Rechnen', SA: 'Sachrechnen', LV: 'Lesen (selbst gelesen)', HV: 'Hörverstehen (vorgelesen)', GA: 'Grundaufgaben' };
 export function berichtTest(erg) {
   const zeilen = [];
   for (const [k, s] of Object.entries(erg.skalen)) {

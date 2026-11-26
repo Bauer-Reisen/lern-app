@@ -1,6 +1,7 @@
 // Elternbereich (hinter PIN): Profil je Kind, Verlauf, Fehler, Nutzung, Einstellungen mit Empfehlung,
 // Test neu starten, lautes Lesen messen, Sicherung.
 import { h, knopf, zeige, welt, dialog, einmal } from './ui.js';
+import { knobelBericht } from './kern/knobel.js';
 import { z, sichere, KINDER, KIND_INFO, EMPFEHLUNG, testErgebnis, testNeuStarten, holeAlltag, holeTest, heute, tageZwischen, ersetzeZustand, holeBank, datumText, namenFehlen } from './zustand.js';
 import { berichtTest, klasseText, klasseKurz, spanneText, tempoText } from './ablauf.js';
 import { thetaZuLs } from './kern/skala.js';
@@ -58,6 +59,8 @@ function einstufung(k) {
       const B = app.bereiche[b]; const se = app.seB ? app.seB(b, tag) : B.seTest;
       out.push({ name, ls: thetaZuLs(B.theta, b), lo: thetaZuLs(B.theta - 1.64 * se, b), hi: thetaZuLs(B.theta + 1.64 * se, b), se });
     }
+    const kb = knobelBericht(app);
+    if (kb) out.push({ name: 'Logik und Knobeln', ls: kb.ls, lo: kb.lo, hi: kb.hi, se: (kb.hi - kb.ls) / (1.64 * 8), unsicher: kb.grob });
   }
   return out;
 }

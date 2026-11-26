@@ -43,7 +43,7 @@ const bereich = (s) => (s === 'LV' || s === 'HV' ? 'L' : 'M');
 for (const [ki, K] of KINDER.entries()) {
   const rng = erzeugeRng(1000 + ki);
   const th = Object.fromEntries(Object.entries(K.ls).map(([s, l]) => [s, lsZuTheta(l, bereich(s))]));
-  const antwort = (item, extra = 0) => { const p = pKorrekt(th[item.skala] + extra - item.b, 0, item.c); const x = rng.u() < p ? 1 : 0; const t0 = K.kind === 'insel' ? item.t0Insel : item.t0Stern; return { x, t: t0 * Math.exp(0.3 * (rng.u() - 0.5)), wn: false }; };
+  const antwort = (item, extra = 0) => { if (item.skala === 'KN') return { x: rng.u() < 0.7 ? 1 : 0, t: 8 }; const p = pKorrekt(th[item.skala] + extra - item.b, 0, item.c); const x = rng.u() < p ? 1 : 0; const t0 = K.kind === 'insel' ? item.t0Insel : item.t0Stern; return { x, t: t0 * Math.exp(0.3 * (rng.u() - 0.5)), wn: false }; };
   // ---- Einstiegstest ----
   let T = neuerTest(K.kind, B, rng.u, new Date(Date.UTC(2026, 11, 1)));
   let tage = 0, aufgaben = 0;
@@ -96,7 +96,7 @@ for (const [ki, K] of KINDER.entries()) {
         if (app.vorhersage(auf.a) < 0.75) F('Heft-Aufgabe mit P < 0,75');
         const zeit0 = z.zeit, antw0 = z.antw.length;
         const o = verbucheAntwort(app, z, auf, { ...r, t: 420, heft: true }, K.kind);
-        if (z.zeit !== zeit0) F('Heft-Pause zählt zur Sitzungszeit');
+        if (z.zeit !== zeit0) F('Heft-Pause zählt zur Sitzungszeit ' + auf.a.teil);
         if (z.antw.length !== antw0) F('Heft-Antwort geht in Müdigkeit/Tempo ein');
         if (o.vb && o.vb.geraten) F('Heft-Antwort als geraten gewertet');
         const lnres = app.sitzung.antworten[app.sitzung.antworten.length - 1].lnres;
