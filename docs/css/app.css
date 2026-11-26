@@ -1,0 +1,172 @@
+/* Lern-App adaptiv – zwei Welten (Die Insel, Die Sternwarte) und Elternbereich. Keine externen Schriften. */
+:root {
+  --bg: #f4f7fb; --karte: #ffffff; --text: #1d2733; --leise: #5b6b7d; --rand: #d5dde7;
+  --akzent: #2f6fdf; --akzent-text: #fff; --gut: #2e8b57; --warn: #c0661b; --fehler: #b3372e;
+  --radius: 16px; --knopf-h: 52px; --schrift: 18px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-size: var(--schrift); line-height: 1.45; min-height: 100vh; -webkit-text-size-adjust: 100%; }
+#app { max-width: 760px; margin: 0 auto; padding: 12px 16px 40px; }
+h1 { font-size: 1.5em; margin: .3em 0 .4em; line-height: 1.2; }
+h2 { font-size: 1.2em; margin: 1em 0 .4em; }
+p { margin: .4em 0 .7em; }
+.leise { color: var(--leise); font-size: .9em; }
+.karte { background: var(--karte); border: 1px solid var(--rand); border-radius: var(--radius); padding: 16px; margin: 12px 0; }
+.zeile { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.spalten { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mitte { text-align: center; }
+.versteckt { display: none !important; }
+
+button, .knopf { font: inherit; min-height: var(--knopf-h); padding: 10px 18px; border-radius: 14px; border: 2px solid transparent; background: var(--akzent); color: var(--akzent-text); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+button.zweit { background: transparent; color: var(--akzent); border-color: var(--akzent); }
+button.leise { background: transparent; color: var(--leise); border-color: var(--rand); min-height: 44px; font-size: .9em; }
+button:disabled { opacity: .45; }
+button.breit { width: 100%; margin: 6px 0; }
+button:focus-visible { outline: 3px solid #f5b400; outline-offset: 2px; }
+input, select { font: inherit; padding: 10px 12px; border: 2px solid var(--rand); border-radius: 12px; background: #fff; color: #1d2733; min-height: 48px; }
+input.zahl { width: 9em; text-align: center; font-size: 1.4em; }
+label { display: block; margin: 8px 0 4px; }
+
+/* Kopfzeile */
+.kopf { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 48px; }
+.kopf .titel { font-weight: 700; }
+.symbolknopf { min-height: 44px; min-width: 44px; padding: 6px 10px; background: transparent; color: inherit; border: 2px solid var(--rand); border-radius: 12px; }
+
+/* Startseite */
+.tueren { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+.tuer { border-radius: 22px; padding: 18px 12px; min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: none; font-size: 1.1em; font-weight: 700; }
+.tuer svg { width: 96px; height: 96px; }
+.tuer.insel { background: linear-gradient(#8fd6f5, #3ab0a0); color: #0e3a33; }
+.tuer.sternwarte { background: linear-gradient(#1b2350, #3b3f8f); color: #fff6d0; }
+
+/* Bildcode */
+.bildgitter { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 360px; margin: 10px auto; }
+.bildgitter button { font-size: 2.2em; min-height: 84px; background: #fff; color: #222; border: 3px solid var(--rand); }
+.bildgitter button.gewaehlt { border-color: var(--akzent); background: #e8f0ff; }
+.punkte { display: flex; gap: 10px; justify-content: center; margin: 10px 0; }
+.punkte span { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--leise); }
+.punkte span.voll { background: var(--akzent); border-color: var(--akzent); }
+
+/* PIN-Feld */
+.pinfeld { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 300px; margin: 10px auto; }
+.pinfeld button { font-size: 1.4em; min-height: 64px; background: #fff; color: #222; border: 2px solid var(--rand); }
+
+/* Aufgabe */
+.aufgabe { font-size: 1.15em; }
+.aufgabe .text { white-space: pre-line; }
+.aufgabe .frage { font-weight: 700; margin-top: .6em; }
+.wahl { display: grid; gap: 10px; margin: 12px 0; }
+.wahl.zwei { grid-template-columns: 1fr 1fr; }
+.wahl.bilder { grid-template-columns: 1fr 1fr; }
+.wahl button { background: #fff; color: #1d2733; border: 2px solid var(--rand); text-align: left; min-height: 56px; }
+.wahl.bilder button, .wahl.kurz button { text-align: center; font-size: 1.6em; min-height: 80px; }
+.wahl button.gewaehlt { border-color: var(--akzent); background: #e8f0ff; }
+.wahl button.richtig { border-color: var(--gut); background: #e5f5ec; }
+.wahl button.falsch { border-color: var(--fehler); background: #fbeaea; }
+.eingabe { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 12px 0; }
+.bruchein { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+.bruchein input { width: 5em; text-align: center; }
+.bruchein .strich { width: 5.5em; height: 3px; background: currentColor; }
+.textbild { font-size: 4em; text-align: center; margin: .2em 0; }
+.emojibild { font-size: 2.2em; text-align: center; letter-spacing: .1em; line-height: 1.5; }
+.punktbild { display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; margin: 8px auto; justify-content: center; }
+.punktbild span { width: 26px; height: 26px; border-radius: 50%; background: #e2574c; }
+.punktbild .luecke { width: 14px; background: transparent; }
+/* Tabelle darf auf dem Handy waagerecht wischen, die Seite selbst nicht */
+.tabhuelle { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+.tabelle { border-collapse: collapse; width: 100%; font-size: .95em; margin: 8px 0; }
+.tabelle th, .tabelle td { border: 1px solid var(--rand); padding: 6px 8px; text-align: left; }
+.tabelle th { background: #eef3f9; }
+.liste { padding-left: 1.2em; }
+.rueck { border-radius: 14px; padding: 12px 14px; margin: 10px 0; }
+.rueck.gut { background: #e5f5ec; color: #17432b; }
+.rueck.hinweis { background: #fff4e0; color: #5a3608; }
+.rueck.loesung { background: #eef3ff; color: #1b2f5c; }
+.vorlesen { min-height: 44px; min-width: 44px; padding: 4px 10px; background: transparent; border: 2px solid var(--rand); color: inherit; border-radius: 12px; font-size: 1.1em; }
+.unten { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; margin-top: 14px; }
+
+/* Balkenmodell */
+.balken { margin: 12px 0; }
+.balken .reihe { display: flex; align-items: stretch; gap: 0; margin: 6px 0; }
+.balken .name { width: 4.5em; font-size: .85em; align-self: center; overflow: hidden; text-overflow: ellipsis; }
+.balken .teil { border: 2px solid #3a5b8c; background: #dce8fa; min-height: 46px; display: flex; align-items: center; justify-content: center; font-weight: 700; padding: 2px; position: relative; }
+.balken .teil + .teil { border-left-width: 0; }
+.balken .teil.frage { background: #fff3c4; }
+.balken .teil.leer { background: #f5f8fc; color: transparent; }
+.balken .teil input { width: 100%; max-width: 5em; min-height: 36px; padding: 2px 4px; text-align: center; font-size: .95em; border-width: 1px; }
+.balken .klammer { text-align: center; font-size: .9em; color: var(--leise); border-top: 2px solid #3a5b8c; margin-left: 4.5em; padding-top: 2px; }
+.hilfeleiste { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+/* Welt-Bild und Expedition */
+.welt { width: 100%; border-radius: 22px; overflow: hidden; margin: 8px 0; }
+.welt svg { display: block; width: 100%; height: auto; }
+.karte-exp { display: flex; gap: 6px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
+.karte-exp span { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,0,0,.08); display: flex; align-items: center; justify-content: center; font-size: 1.3em; }
+.karte-exp span.da { background: #ffd66b; }
+.koennen { display: flex; gap: 8px; flex-wrap: wrap; }
+.koennen span { padding: 6px 12px; border-radius: 999px; background: rgba(0,0,0,.06); font-size: .9em; }
+
+/* Insel (jüngeres Kind): große Knöpfe, wenig Text */
+body.welt-insel { --bg: #e6f7f4; --akzent: #e8742a; --karte: #fffdf6; --rand: #c9e3dc; --schrift: 21px; --knopf-h: 64px; }
+body.welt-insel .aufgabe { font-size: 1.3em; }
+body.welt-insel .wahl button { min-height: 72px; font-size: 1.15em; }
+/* Sternwarte (älteres Kind): dunkel */
+body.welt-sternwarte { --bg: #141a3a; --karte: #1f2756; --text: #f1f3ff; --leise: #b8c0ea; --rand: #3b4590; --akzent: #f5c542; --akzent-text: #1b1f3d; }
+body.welt-sternwarte .wahl button, body.welt-sternwarte .bildgitter button, body.welt-sternwarte .pinfeld button { background: #273070; color: #f1f3ff; border-color: #46519f; }
+body.welt-sternwarte .wahl button.gewaehlt { background: #39438f; border-color: var(--akzent); }
+body.welt-sternwarte .wahl button.richtig { background: #1d5a43; }
+body.welt-sternwarte .wahl button.falsch { background: #6a2a33; }
+body.welt-sternwarte .tabelle th { background: #2b3578; }
+body.welt-sternwarte .rueck.gut { background: #1d4a3a; color: #e3fff0; }
+body.welt-sternwarte .rueck.hinweis { background: #4d3c14; color: #fff3d2; }
+body.welt-sternwarte .rueck.loesung { background: #26326f; color: #e5ebff; }
+body.welt-sternwarte .balken .teil { background: #2e3b84; border-color: #9fb0ff; color: #fff; }
+body.welt-sternwarte .balken .teil.frage { background: #6b5a12; }
+body.welt-sternwarte .balken .teil.leer { background: #222a62; }
+body.welt-sternwarte input { background: #f7f8ff; }
+
+/* Elternbereich */
+body.eltern { --akzent: #2f6fdf; }
+.reiter { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+.reiter button { min-height: 42px; padding: 6px 12px; background: #fff; color: #1d2733; border: 2px solid var(--rand); white-space: nowrap; font-size: .9em; }
+.reiter button.aktiv { border-color: var(--akzent); background: #e8f0ff; }
+.spanne { position: relative; height: 26px; background: #eef2f7; border-radius: 8px; margin: 4px 0 2px; }
+.spanne .band { position: absolute; top: 4px; bottom: 4px; background: #9bbcf3; border-radius: 6px; }
+.spanne .punkt { position: absolute; top: 1px; width: 6px; height: 24px; margin-left: -3px; background: #1d4fa8; border-radius: 3px; }
+.spanne .klasse { position: absolute; top: 0; bottom: 0; width: 1px; background: #c3ccd8; }
+.skalaleiste { display: flex; justify-content: space-between; font-size: .7em; color: var(--leise); }
+.wert { font-weight: 700; }
+.balkendiag { display: flex; align-items: flex-end; gap: 3px; height: 80px; border-bottom: 1px solid var(--rand); }
+.balkendiag div { flex: 1; background: #9bbcf3; min-height: 1px; border-radius: 3px 3px 0 0; }
+.banner { background: #fff4e0; border: 1px solid #f0c88a; color: #5a3608; border-radius: 12px; padding: 10px 12px; margin: 10px 0; }
+.banner.rot { background: #fbeaea; border-color: #e2a8a2; color: #6b1d16; }
+table.einfach { border-collapse: collapse; width: 100%; font-size: .9em; }
+table.einfach td, table.einfach th { padding: 5px 4px; border-bottom: 1px solid var(--rand); text-align: left; vertical-align: top; }
+.lesetext { font-size: 1.25em; line-height: 1.9; }
+.lesetext span { padding: 2px 3px; border-radius: 6px; cursor: pointer; }
+.lesetext span.fehler { background: #f7c6c1; text-decoration: line-through; }
+.lesetext span.letztes { background: #ffe08a; }
+
+/* Rundgang und Hinweise */
+.schleier { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 16, 30, .55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+.dialog { background: #fff; color: #1d2733; border-radius: 20px; max-width: 520px; width: 100%; padding: 20px; max-height: 90vh; overflow: auto; }
+.dialog h2 { margin-top: 0; }
+.tourpunkte { display: flex; gap: 8px; justify-content: center; margin: 12px 0; }
+.tourpunkte button { width: 22px; height: 22px; min-height: 22px; padding: 0; border-radius: 50%; background: #d5dde7; border: none; }
+.tourpunkte button.aktiv { background: #2f6fdf; }
+.einmal { background: #eef6ff; color: #1b2f5c; border-radius: 14px; padding: 10px 12px; margin: 10px 0; display: flex; gap: 10px; align-items: flex-start; }
+.einmal button { min-height: 36px; padding: 4px 10px; font-size: .85em; }
+body.welt-sternwarte .einmal { background: #26326f; color: #e5ebff; }
+
+@media (max-width: 420px) {
+  .tabelle { font-size: .78em; }
+  .tabelle th, .tabelle td { padding: 4px 5px; }
+  #app { padding: 8px 12px 32px; }
+  .tueren { grid-template-columns: 1fr; }
+  .tuer { min-height: 150px; flex-direction: row; }
+  .tuer svg { width: 80px; height: 80px; }
+  .spalten { grid-template-columns: 1fr; }
+  .wahl.bilder { grid-template-columns: 1fr 1fr; }
+}

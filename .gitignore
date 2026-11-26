@@ -1,0 +1,23 @@
+# Nur diese Dinge kommen ins öffentliche Repository – alles andere bleibt auf diesem PC
+# (Auftrag, Konzept, Stand, Recherche, Simulation, Prüfbericht, Eltern-Anleitung, Wörterliste).
+/*
+!/app/
+!/docs/
+!/tools/
+!/README.md
+!/ANLEITUNG-INHALTE.md
+!/.gitignore
+
+# zur Sicherheit ausdrücklich
+.privat-woerter.txt
+STAND.md
+AUFTRAG.md
+KONZEPT.md
+ANLEITUNG.md
+konzepte/
+recherche/
+sim/
+pruefung/
+node_modules/
+*.log
+lernapp-sicherung-*.json
