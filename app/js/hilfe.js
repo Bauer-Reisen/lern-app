@@ -5,7 +5,7 @@ import { BAU } from './version.js';
 
 const N = (k) => KIND_INFO[k].name;
 const tour = () => [
-  ['Willkommen!', `Diese App übt mit ${N('insel')} und ${N('sternwarte')} Mathe und Lesen – jeden Tag ein bisschen, immer passend zum eigenen Können. Alles bleibt auf diesem Gerät. Es gibt kein Konto und keine Werbung.`],
+  ['Willkommen!', `Diese App übt mit ${N('insel')} und ${N('sternwarte')} Mathe, Lesen sowie Logik und Knobeln – jeden Tag ein bisschen, immer passend zum eigenen Können. Alles bleibt auf diesem Gerät. Es gibt kein Konto und keine Werbung. Weitere Fächer (Geometrie, Rechtschreibung, Englisch) kommen nach und nach dazu.`],
   ['Zwei eigene Welten', `${N('insel')} hat „Die Insel“ mit dem Fuchs Funki: große Knöpfe, alles wird vorgelesen. ${N('sternwarte')} hat „Die Sternwarte“. Jedes Kind öffnet seine Welt mit einem Bilder-Code und sieht nur sich selbst.`],
   ['Zuerst die Expedition', 'An den ersten Tagen findet die App heraus, was jedes Kind schon kann. Das dauert mehrere kurze Tage. Es gibt dabei kein Richtig oder Falsch – Raten, Müdigkeit und schlechte Tage erkennt die App selbst.'],
   ['Dann jeden Tag eine Runde', `${N('insel')} übt etwa 10 Minuten, ${N('sternwarte')} etwa 18. Die Runde endet immer nach einer gelösten Aufgabe. Danach gibt es keinen „Weiter"-Knopf. Ruhetage und Abendruhe sind eingestellt.`],
