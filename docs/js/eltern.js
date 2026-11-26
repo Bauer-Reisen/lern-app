@@ -204,7 +204,7 @@ function einstellungen(el) {
     el.appendChild(h('div', { class: 'karte' }, h('h2', null, KIND_INFO[k].name),
       zahl('sitzungMin', 5, 30, 'Länge einer Runde (Minuten)'), zahl('tagMin', 5, 60, 'Höchstens pro Tag (Minuten)'),
       h('label', null, 'Ruhetage'), tage, h('div', { class: 'leise' }, 'Empfehlung: Mi und So – ' + GRUND.ruhetage),
-      h('label', null, 'Gesperrt ab'), zeit, h('div', { class: 'leise' }, `Empfehlung: ${Em.sperreAb} – ${GRUND.sperreAb}`),
+      h('label', null, 'Gesperrt ab (bis 6 Uhr morgens)'), zeit, h('div', { class: 'leise' }, `Empfehlung: ${Em.sperreAb} – ${GRUND.sperreAb}`),
       h('label', null, 'Zweite Runde am Tag'), zweite, h('div', { class: 'leise' }, GRUND.zweite),
       knopf('Heute eine Extra-Runde erlauben', () => { K.extraSitzung = heute(); sichere(); dialog('Erlaubt', h('p', null, `${KIND_INFO[k].name} darf heute noch eine Runde machen (auch an einem Ruhetag).`)); }, 'zweit'),
       h('label', null, h("input", { type: 'checkbox', checked: E.heft !== false, style: 'min-height:auto', onchange: (e) => { E.heft = e.target.checked; sichere(); } }), ' Heft-Bausteine (' + HEFT_NAME[k] + ')'), h('div', { class: 'leise' }, 'Empfehlung: ein – ' + GRUND.heft),

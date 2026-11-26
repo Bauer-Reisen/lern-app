@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.5.1', punkte: ['Abendruhe gilt jetzt bis 6 Uhr morgens (vorher war nach Mitternacht wieder offen).'] },
   { version: '1.5.0', punkte: ['Neu: Geometrie und Daten (Formen und Körper, Würfel, Symmetrie, Drehungen, Winkel, Koordinaten, Maßstab, Tabellen und Diagramme, Zentralwert, Wahrscheinlichkeit). Pro Runde 1–2 Aufgaben, die sich dem Kind anpassen.', 'Im Elternbereich gibt es dafür einen eigenen Wert. Auf Mathe und Lesen wirkt er sich nicht aus.'] },
   { version: '1.4.0', punkte: ['Neu: Logik und Knobeln (Bilderfolgen, „Was passt nicht?“, Analogien, Zahlenquadrate, Rätsel). In jeder Runde kommen 2–3 Knobel-Aufgaben dran, die sich dem Kind anpassen.', 'Im Elternbereich steht Logik und Knobeln als eigener Wert. Am Anfang ist er noch grob, und auf Mathe und Lesen wirkt er sich nicht aus.'] },
   { version: '1.3.1', punkte: ['Lesefragen: Die Lösung zeigt jetzt die passende Stelle im Text.'] },

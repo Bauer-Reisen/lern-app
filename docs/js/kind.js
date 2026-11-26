@@ -17,7 +17,7 @@ export function darfHeute(k, fuerTest = false) {
   const K = z().kinder[k], E = K.einstellungen, jetzt = new Date();
   const hhmm = String(jetzt.getHours()).padStart(2, '0') + ':' + String(jetzt.getMinutes()).padStart(2, '0');
   if (K.ferien === 'frei') return { ok: false, grund: 'Ferienpause. Genieß die freie Zeit!' };
-  if (E.sperreAb && hhmm >= E.sperreAb) return { ok: false, grund: 'Jetzt ist Abendruhe. Morgen geht es weiter.' };
+  if (E.sperreAb && (hhmm >= E.sperreAb || hhmm < '06:00')) return { ok: false, grund: 'Jetzt ist Abendruhe. Morgen geht es weiter.' };
   if (E.ruhetage.indexOf(jetzt.getDay()) >= 0 && K.extraSitzung !== heute()) return { ok: false, grund: `Heute ist Ruhetag (${WOCHENTAG[jetzt.getDay()]}). Ausruhen hilft dem Kopf beim Merken.` };
   const min = (K.tagesMinuten[heute()] || 0);
   if (fuerTest) {
