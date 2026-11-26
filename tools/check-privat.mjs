@@ -37,7 +37,10 @@ export function pruefePrivat({ still = false } = {}) {
   if (!woerter.length && !still) console.warn('Hinweis: .privat-woerter.txt fehlt oder ist leer – nur allgemeine Muster werden geprüft.');
   // Wortanfang muss eine Grenze sein (sonst träfe z. B. ein kurzer Name mitten in anderen Wörtern)
   const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const res = woerter.map(w => new RegExp('(?<![\\p{L}\\p{N}])' + esc(w), 'iu'));
+  // Wort mit "=" davor: zählt nur als ganzes Wort (nicht als Teil eines längeren Wortes)
+  const res = woerter.map(w => w.startsWith('=')
+    ? new RegExp('(?<![\\p{L}\\p{N}])' + esc(w.slice(1)) + '(?![\\p{L}\\p{N}])', 'iu')
+    : new RegExp('(?<![\\p{L}\\p{N}])' + esc(w), 'iu'));
   const dateien = veroeffentlicht().filter(f => !BILD.test(f) && f !== '.privat-woerter.txt');
   const treffer = [];
   for (const datei of dateien) {
