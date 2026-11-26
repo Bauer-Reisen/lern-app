@@ -59,7 +59,7 @@ function einstufung(k) {
       const B = app.bereiche[b]; const se = app.seB ? app.seB(b, tag) : B.seTest;
       out.push({ name, ls: thetaZuLs(B.theta, b), lo: thetaZuLs(B.theta - 1.64 * se, b), hi: thetaZuLs(B.theta + 1.64 * se, b), se });
     }
-    for (const kb of [zusatzBericht(app, 'KN'), zusatzBericht(app, 'GE')]) if (kb) out.push({ name: kb.name, ls: kb.ls, lo: kb.lo, hi: kb.hi, se: (kb.hi - kb.ls) / (1.64 * 8), unsicher: kb.grob });
+    for (const kb of ['KN', 'GE', 'RS', 'EN'].map(x => zusatzBericht(app, x))) if (kb) out.push({ name: kb.name, ls: kb.ls, lo: kb.lo, hi: kb.hi, se: (kb.hi - kb.ls) / (1.64 * 8), unsicher: kb.grob });
   }
   return out;
 }

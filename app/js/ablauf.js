@@ -9,6 +9,13 @@ import { rngAus } from './inhalte/werkzeug.js';
 import { heftNeutralT } from './heft.js';
 import { istGeraten } from './kern/modell.js';
 import { zusatzAuftrag, zusatzVerbuche } from './kern/knobel.js';
+const ZUSATZ_TEIL = { knobel: 'KN', geo: 'GE', rs: 'RS', en: 'EN' };
+// Startwert der Zusatzbereiche: Knobeln/Geometrie an Mathe, Rechtschreibung an Lesen, Englisch an der Klasse (Englisch beginnt in Bayern in Kl. 3)
+function zusatzStart(app, key) {
+  if (key === 'RS') return Math.max(5, thetaZuLs(app.bereiche.L.theta, 'L') - 8);
+  if (key === 'EN') return app.kind === 'insel' ? 8 : 25;
+  return Math.max(5, thetaZuLs(app.bereiche.M.theta, 'M') - 5);
+}
 
 export { T_APP, H_APP };
 export const KLASSE = { insel: 1, sternwarte: 4 };
@@ -74,7 +81,9 @@ export function planeSitzung(kind, wd, sitzungNr, app) {
     for (let i = 0; i < (mathe ? 12 : 8); i++) plan.push({ teil: 'grund' });
     for (const x of app.pruefAufgabenHeute()) plan.push({ teil: 'kt', ...x });
     for (let i = 0; i < 3; i++) plan.push({ teil: 'abruf', bereich: mathe ? 'M' : 'L' });
-    plan.push({ teil: 'knobel' }, { teil: 'geo' }); // Stufe 2: Logik und Knobeln, Geometrie und Daten
+    // Stufe 2 und 3 im Wechsel: je Runde 2 Zusatzaufgaben aus Knobeln, Geometrie, Rechtschreibung, Englisch
+    const zi = [['knobel', 'en'], ['geo', 'rs'], ['en', 'knobel'], ['rs', 'geo']][sitzungNr % 4];
+    plan.push({ teil: zi[0] }, { teil: zi[1] });
     if (mathe) { for (let i = 0; i < 4; i++) plan.push({ teil: 'neu', bereich: 'M' }); for (let i = 0; i < 3; i++) plan.push({ teil: 'transfer', p: 0.75 }); }
     else { for (let i = 0; i < 4; i++) plan.push({ teil: 'lesen', bereich: 'L' }); plan.push({ teil: 'transfer', p: 0.75 }); }
     plan.push({ teil: 'schluss', bereich: mathe ? 'M' : 'L' });
@@ -84,7 +93,7 @@ export function planeSitzung(kind, wd, sitzungNr, app) {
     for (let i = 0; i < 4; i++) plan.push({ teil: 'abruf', bereich: null });
     for (let i = 0; i < 4; i++) plan.push({ teil: 'neu', bereich: 'M' });
     for (let i = 0; i < 2; i++) plan.push({ teil: 'neu', bereich: 'L' });
-    plan.push({ teil: 'knobel' }, { teil: 'geo' }, { teil: 'knobel' }, { teil: 'geo' }); // Stufe 2
+    plan.push({ teil: 'knobel' }, { teil: 'en' }, { teil: 'geo' }, { teil: 'rs' }, { teil: sitzungNr % 2 ? 'en' : 'rs' }); // Stufe 2 und 3 (Englisch etwas öfter)
     plan.push({ teil: 'transfer', p: 0.70, typ: 'ueb' });
     if (sitzungNr % 2 === 0) plan.push({ teil: 'transfer', p: 0.70, typ: 'feh' });
     while (plan.filter(p => p.teil === 'transfer').length < 6) plan.push({ teil: 'transfer', p: 0.70 });
@@ -108,7 +117,7 @@ export function naechsterAuftrag(app, zust) {
       if (it) { const n = app.knoten.find(x => x.bereich === p.bereich && !x.tempo && x.k === it.knoten); return { a: { item: it, node: n, teil: 'kt', kt: p.kt, bereich: p.bereich }, p }; }
       continue;
     }
-    if (p.teil === 'knobel' || p.teil === 'geo') a = zusatzAuftrag(app, p.teil === 'geo' ? 'GE' : 'KN', Math.max(5, thetaZuLs(app.bereiche.M.theta, 'M') - 5));
+    if (ZUSATZ_TEIL[p.teil]) a = zusatzAuftrag(app, ZUSATZ_TEIL[p.teil], zusatzStart(app, ZUSATZ_TEIL[p.teil]));
     else if (p.teil === 'grund') a = app.waehleGrundlage();
     else if (p.teil === 'abruf') { a = app.waehleAbruf(p.bereich ? [p.bereich] : null); if (!a) a = app.waehleNeu(p.bereich || 'M'); }
     else if (p.teil === 'neu' || p.teil === 'lesen') a = app.waehleNeu(p.bereich);
@@ -130,7 +139,7 @@ export function verbucheAntwort(app, zust, auftrag, r, kind) {
     zust.zeit += r.t; zust.bild = bildSek(zust) - r.t + (r.tBild != null ? r.tBild : r.t);
     return {};
   }
-  if (a.teil === 'knobel' || a.teil === 'geo') {
+  if (ZUSATZ_TEIL[a.teil]) {
     zusatzVerbuche(app, a.item, r.wn ? 0 : r.x, r.t, app.heute || 0);
     zust.zeit += r.t; zust.bild = bildSek(zust) + (r.tBild != null ? r.tBild : r.t);
     return {};
@@ -178,7 +187,7 @@ export function neueSitzung(kind, wd, sitzungNr, app) {
 }
 
 // ---------- Elternbericht aus Testergebnis / Alltag ----------
-const SKALA_NAME = { KN: 'Logik und Knobeln', GE: 'Geometrie und Daten', RE: 'Rechnen', SA: 'Sachrechnen', LV: 'Lesen (selbst gelesen)', HV: 'Hörverstehen (vorgelesen)', GA: 'Grundaufgaben' };
+const SKALA_NAME = { KN: 'Logik und Knobeln', GE: 'Geometrie und Daten', RS: 'Rechtschreibung', EN: 'Englisch', RE: 'Rechnen', SA: 'Sachrechnen', LV: 'Lesen (selbst gelesen)', HV: 'Hörverstehen (vorgelesen)', GA: 'Grundaufgaben' };
 export function berichtTest(erg) {
   const zeilen = [];
   for (const [k, s] of Object.entries(erg.skalen)) {

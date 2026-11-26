@@ -43,7 +43,7 @@ const bereich = (s) => (s === 'LV' || s === 'HV' ? 'L' : 'M');
 for (const [ki, K] of KINDER.entries()) {
   const rng = erzeugeRng(1000 + ki);
   const th = Object.fromEntries(Object.entries(K.ls).map(([s, l]) => [s, lsZuTheta(l, bereich(s))]));
-  const antwort = (item, extra = 0) => { if (item.skala === 'KN' || item.skala === 'GE') return { x: rng.u() < 0.7 ? 1 : 0, t: 8 }; const p = pKorrekt(th[item.skala] + extra - item.b, 0, item.c); const x = rng.u() < p ? 1 : 0; const t0 = K.kind === 'insel' ? item.t0Insel : item.t0Stern; return { x, t: t0 * Math.exp(0.3 * (rng.u() - 0.5)), wn: false }; };
+  const antwort = (item, extra = 0) => { if (['KN', 'GE', 'RS', 'EN'].includes(item.skala)) return { x: rng.u() < 0.7 ? 1 : 0, t: 8 }; const p = pKorrekt(th[item.skala] + extra - item.b, 0, item.c); const x = rng.u() < p ? 1 : 0; const t0 = K.kind === 'insel' ? item.t0Insel : item.t0Stern; return { x, t: t0 * Math.exp(0.3 * (rng.u() - 0.5)), wn: false }; };
   // ---- Einstiegstest ----
   let T = neuerTest(K.kind, B, rng.u, new Date(Date.UTC(2026, 11, 1)));
   let tage = 0, aufgaben = 0;

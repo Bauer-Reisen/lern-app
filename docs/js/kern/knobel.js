@@ -4,11 +4,15 @@
 // Zustand liegt in app.knobel (KN) bzw. app.geo (GE) und wird mit dem Alltag gespeichert.
 import { KNOBEL_STUFEN, knobelAufgabe } from '../inhalte/logik.js';
 import { GEO_STUFEN, geoAufgabe } from '../inhalte/geometrie.js';
+import { RS_STUFEN, rsAufgabe } from '../inhalte/rechtschreibung.js';
+import { EN_STUFEN, enAufgabe } from '../inhalte/englisch.js';
 import { rngAus } from '../inhalte/werkzeug.js';
 
 export const ZUSATZ = {
   KN: { feld: 'knobel', teil: 'knobel', name: 'Logik und Knobeln', stufen: KNOBEL_STUFEN, erzeuge: knobelAufgabe },
   GE: { feld: 'geo', teil: 'geo', name: 'Geometrie und Daten', stufen: GEO_STUFEN, erzeuge: geoAufgabe },
+  RS: { feld: 'rs', teil: 'rs', name: 'Rechtschreibung', stufen: RS_STUFEN, erzeuge: rsAufgabe },
+  EN: { feld: 'en', teil: 'en', name: 'Englisch', stufen: EN_STUFEN, erzeuge: enAufgabe },
 };
 const S = 8;          // Lernstufen je Logit
 const ZIEL = 0.70;

@@ -14,13 +14,13 @@ export function zeigeAufgabe(ziel, auf, opt) {
   // opt: { kind, modus, fertig(ergebnis), wnErlaubt }
   const kind = opt.kind;
   const istHV = auf.skala === 'HV';
-  const sprechText = baueSprechtext(auf);
+  const sprechText = auf.sprache ? auf.sprech : baueSprechtext(auf); // Englisch: nur der englische Sprechtext, englische Stimme
   let start = null, versuche = 0, hilfe = 0, ersteRichtig = null, beendet = false, eingabeFehlt = null;
   const angezeigt = Date.now(); let tAnzMerk = null;
   let lauf = 0; // Befund 17: erneutes Vorlesen hält die Zeit an, bis es zu Ende ist
   const nach = (g) => () => { if (g === lauf && start === null) start = Date.now(); };
   const nachVorlesen = nach(0);
-  const nochmal = () => { if (beendet) return; lauf++; if (versuche === 0) start = null; sprich(sprechText, nach(lauf)); };
+  const nochmal = () => { if (beendet) return; lauf++; if (versuche === 0) start = null; sprich(sprechText, nach(lauf), auf.sprache); };
   const nochmalKnopf = () => h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Vorlesen', onclick: nochmal }, '🔊');
   const sek = () => antwortZeit(angezeigt, start, Date.now());
 
@@ -104,7 +104,7 @@ export function zeigeAufgabe(ziel, auf, opt) {
   ziel.appendChild(h('div', { class: 'karte' }, kopf, inhalt, balken, eingabe, unten, rueck, bereich));
   // Vorlesen
   const lesen = (auf.vorlesen === 'alles') || istHV;
-  if (lesen) sprich(sprechText, nachVorlesen); else nachVorlesen();
+  if (lesen) sprich(sprechText, nachVorlesen, auf.sprache); else nachVorlesen();
   const f = leseEingabe(); if (f && !lesen) setTimeout(() => { try { f.focus(); } catch (e) { /* */ } }, 50);
 
   function abgeben(e, knopfEl) {
