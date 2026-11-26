@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.6.1', punkte: ['Bei neuen Aufgabenarten (z. B. Koordinaten, Analogien, Zahlenquadrate, Schlussfolgern) erscheint beim ersten Mal eine kurze Erklärung mit Beispiel. Die Koordinaten-Aufgabe ist einfacher formuliert.'] },
   { version: '1.6.0', punkte: ['Neu: Rechtschreibung (doppelte Mitlaute, ie, ck/tz, Verlängern, Ableiten, Dehnungs-h, ss/ß, das/dass, Großschreibung, Kommas, Fremdwörter).', 'Neu: Englisch mit englischer Stimme: Hören, Wörter, Fragen und Antworten, Sätze verstehen, Grammatik (he/she -s, Mehrzahl, do/does, Vergangenheit, Steigerung).', 'Pro Runde wechseln sich Knobeln, Geometrie, Rechtschreibung und Englisch ab, jeweils mit eigenem Wert im Elternbereich.'] },
   { version: '1.5.1', punkte: ['Abendruhe gilt jetzt bis 6 Uhr morgens (vorher war nach Mitternacht wieder offen).'] },
   { version: '1.5.0', punkte: ['Neu: Geometrie und Daten (Formen und Körper, Würfel, Symmetrie, Drehungen, Winkel, Koordinaten, Maßstab, Tabellen und Diagramme, Zentralwert, Wahrscheinlichkeit). Pro Runde 1–2 Aufgaben, die sich dem Kind anpassen.', 'Im Elternbereich gibt es dafür einen eigenen Wert. Auf Mathe und Lesen wirkt er sich nicht aus.'] },

@@ -1,2 +1,2 @@
 // Wird von tools/bauen.mjs geschrieben.
-export const BAU = '0a68e49c8f';
+export const BAU = '07972908a1';

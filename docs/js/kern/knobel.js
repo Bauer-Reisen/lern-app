@@ -14,6 +14,21 @@ export const ZUSATZ = {
   RS: { feld: 'rs', teil: 'rs', name: 'Rechtschreibung', stufen: RS_STUFEN, erzeuge: rsAufgabe },
   EN: { feld: 'en', teil: 'en', name: 'Englisch', stufen: EN_STUFEN, erzeuge: enAufgabe },
 };
+// Einmal-Erklärung je Aufgabenart (mit Beispiel): erklärt nur das Format, nicht die Lösung
+const KARTEN = {
+  'KN:folge': 'So geht’s: Die Bilder wiederholen sich in einem Muster. Beispiel: 🍎 ⭐ 🍎 ⭐ 🍎 … als Nächstes kommt ⭐.',
+  'KN:analogie': 'So geht’s: Zwei Dinge gehören auf eine bestimmte Art zusammen. Finde das Ding, das genauso zum dritten passt. Beispiel: Vogel → fliegt, so wie Fisch → schwimmt. Bei Zahlen: 2 → 4 (plus 2), so wie 5 → 7.',
+  'KN:matrix': 'So geht’s: In jeder Zeile gilt dieselbe Rechen-Regel. Finde sie in den vollen Zeilen und rechne damit die letzte aus. Beispiel: 2 | 3 | 5 und 4 | 1 | 5 – die dritte Zahl ist die Summe der ersten beiden.',
+  'KN:schluss': 'So geht’s: Nimm nur, was in den Sätzen steht – nicht, was du sonst weißt. „Kann man nicht wissen“ heißt: Aus den Sätzen folgt es nicht sicher.',
+  'KN:reihe': 'So geht’s: Stell dir die Kinder in einer Reihe vor, vom größten zum kleinsten. Beispiel: Lea ist größer als Ben, Ben größer als Mia → Lea, Ben, Mia.',
+  'GE:koordinaten': 'So geht’s: Jeder Platz im Gitter hat zwei Zahlen. Zuerst die Zahl oben über der Spalte, dann die Zahl links neben der Zeile. Beispiel: (3|2) heißt Spalte 3, Zeile 2.',
+  'GE:drehen': 'So geht’s: Rechts herum geht es Norden → Osten → Süden → Westen. Eine Vierteldrehung ist ein Schritt, eine halbe Drehung zwei Schritte.',
+  'GE:massstab': 'So geht’s: 1 : 1 000 heißt: 1 cm auf der Karte sind 1 000 cm in echt, also 10 m.',
+  'GE:zentral': 'So geht’s: Erst die Zahlen der Größe nach sortieren. Beispiel: 7, 2, 9 → 2, 7, 9. Die Mitte ist 7, die Spannweite ist 9 − 2 = 7.',
+  'EN:hoerBild': 'So geht’s: Tippe auf 🔊 und hör das englische Wort. Dann tippe auf das passende Bild. Du darfst so oft hören, wie du willst.',
+  'EN:grammatik': 'So geht’s: In dem englischen Satz fehlt ein Wort (…). Wähle die Form, die richtig passt.',
+  'RS:dass': 'So geht’s: Kannst du „dieses“ oder „welches“ einsetzen? Dann schreibt man „das“. Sonst „dass“.',
+};
 const S = 8;          // Lernstufen je Logit
 const ZIEL = 0.70;
 const sig = (x) => 1 / (1 + Math.exp(-x));
@@ -38,6 +53,7 @@ export function zusatzAuftrag(app, key, lsStart) {
   const st = kand[0].st;
   K.zuletzt = [st.id, ...K.zuletzt].slice(0, 3);
   const a = Z.erzeuge(r, st);
+  const karte = KARTEN[key + ':' + st.art]; if (karte) a.karte = karte;
   const item = { id: Z.feld + ':' + st.id + '#' + K.nr, skala: key, vorlage: Z.feld + '-' + st.art, ls: st.ls, c: a.wahl ? 1 / a.wahl.length : 0, a };
   return { item, teil: Z.teil };
 }

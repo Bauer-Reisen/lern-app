@@ -201,7 +201,7 @@ function naechsteUebung(k) {
   const flaeche = h('div');
   const teilText = auftrag.a.teil === 'knobel' ? (k === 'insel' ? 'Rätsel' : 'Logik und Knobeln') : auftrag.a.teil === 'geo' ? (k === 'insel' ? 'Formen und Zählen' : 'Geometrie und Daten') : auftrag.a.teil === 'rs' ? 'Rechtschreibung' : auftrag.a.teil === 'en' ? 'Englisch' : auftrag.a.transfer ? (k === 'insel' ? 'Knobel-Aufgabe' : 'Transfer: ' + (auf.typ === 'sort' ? 'Struktur erkennen' : 'neue Verkleidung')) : null;
   const stelle = () => {
-  zeige(kopf, teilText ? h('p', { class: 'leise' }, teilText) : null, heft ? h('p', { class: 'leise' }, 'Jetzt das Ergebnis aus deinem ' + HEFT_NAME[k] + ' eintippen.') : null, auftrag.a.transfer && auf.typ ? einmal('transfer-' + k + '-' + auf.typ, auf.hinweis) : null, flaeche);
+  zeige(kopf, teilText ? h('p', { class: 'leise' }, teilText) : null, heft ? h('p', { class: 'leise' }, 'Jetzt das Ergebnis aus deinem ' + HEFT_NAME[k] + ' eintippen.') : null, auftrag.a.transfer && auf.typ ? einmal('transfer-' + k + '-' + auf.typ, auf.hinweis) : null, auf.karte ? einmal('karte-' + k + '-' + auftrag.a.item.vorlage, auf.karte) : null, flaeche);
   const aufStart = Date.now(); // ab hier Bildschirmzeit (nach der Heft-Pause)
   zeigeAufgabe(flaeche, auf, {
     kind: k, modus: 'ueben', fertig: async (r) => {

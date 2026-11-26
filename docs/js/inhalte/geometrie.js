@@ -57,7 +57,7 @@ const ARTEN = {
     // Ablenker: vertauscht, daneben
     const f = [`(${y}|${x})`, `(${x + 1}|${y})`, `(${x}|${y === 1 ? 2 : y - 1})`, `(${x === 1 ? 2 : x - 1}|${y})`];
     const { wahl, antwort } = auswahl(r, `(${x}|${y})`, f);
-    return { text: 'An welchem Punkt liegt der Stern? (erst nach rechts, dann nach oben)', tabelle: { kopf: ['', '1', '2', '3', '4'], zeilen }, sprech: 'An welchem Punkt liegt der Stern? Zuerst kommt die Zahl nach rechts, dann die Zahl nach oben.', art: 'wahl', wahl, antwort, hinweis: 'Erst die Zahl über der Spalte (nach rechts), dann die Zahl am linken Rand (nach oben).', erklaerung: `Der Stern liegt ${x} nach rechts und ${y} nach oben: (${x}|${y}).` };
+    return { text: 'Wo liegt der Stern? Zuerst die Zahl oben (Spalte), dann die Zahl links (Zeile).', tabelle: { kopf: ['', '1', '2', '3', '4'], zeilen }, sprech: 'Wo liegt der Stern? Zuerst die Zahl oben, dann die Zahl links.', art: 'wahl', wahl, antwort, hinweis: 'Fahre mit dem Finger vom Stern nach oben zur Zahl, dann vom Stern nach links zur Zahl.', erklaerung: `Über dem Stern steht ${x}, links daneben ${y}. Also (${x}|${y}).` };
   },
   massstab(r) {
     const m = r.waehle([100, 1000, 10000, 25000]), cm = r.zahl(2, 9); const echtCm = cm * m;
