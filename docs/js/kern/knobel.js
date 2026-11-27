@@ -55,6 +55,7 @@ export function zusatzAuftrag(app, key, lsStart) {
   const kand = Z.stufen.map(st => ({ st, d: Math.abs(st.ls - ziel) + 4 * r.u() + (K.zuletzt.includes(st.id) ? 6 : 0) })).sort((a, b) => a.d - b.d);
   const st = kand[0].st;
   K.zuletzt = [st.id, ...K.zuletzt].slice(0, 3);
+  K.nutz = K.nutz || {}; K.nutz[st.id] = (K.nutz[st.id] || 0) + 1;
   const a = Z.erzeuge(r, st);
   const karte = KARTEN[key + ':' + st.art]; if (karte) a.karte = karte;
   const item = { id: Z.feld + ':' + st.id + '#' + K.nr, skala: key, vorlage: Z.feld + '-' + st.art, ls: st.ls, c: a.wahl ? 1 / a.wahl.length : 0, a };
@@ -80,6 +81,19 @@ export function zusatzBericht(app, key) {
   const K = app && app[ZUSATZ[key].feld]; if (!K || K.n === 0) return null;
   const breite = Math.max(4, 30 / Math.sqrt(1 + K.n / 4));
   return { name: ZUSATZ[key].name, ls: K.ls, lo: K.ls - breite, hi: K.ls + breite, n: K.n, tage: K.tage.length, grob: K.n < 20 || K.tage.length < 3 };
+}
+
+// Nachschub-Bedarf (für den Elternbereich): Decke erreicht oder feste Fragenlisten oft wiederholt
+const FESTE_LISTEN = new Set(['WW', 'RS', 'EN']);
+export function nachschubZusatz(app) {
+  const out = [];
+  for (const [key, Z] of Object.entries(ZUSATZ)) {
+    const K = app && app[Z.feld]; if (!K || K.n < 15) continue;
+    const maxLs = Math.max(...Z.stufen.map(s => s.ls));
+    if (K.ls >= maxLs - 6) out.push(`${Z.name}: oberste Stufe fast erreicht (Kind LS ${Math.round(K.ls)}, schwerste Aufgabe LS ${maxLs}) – schwerere Aufgaben nötig`);
+    if (FESTE_LISTEN.has(key)) for (const [id, n] of Object.entries(K.nutz || {})) if (n >= 30) out.push(`${Z.name}: Stufe ${id} schon ${n}-mal dran – mehr Fragen dieser Stufe nötig`);
+  }
+  return out;
 }
 
 // Kurzformen für Knobeln (ältere Aufrufe und Tests)

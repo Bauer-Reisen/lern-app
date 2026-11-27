@@ -1,8 +1,8 @@
 // Elternbereich (hinter PIN): Profil je Kind, Verlauf, Fehler, Nutzung, Einstellungen mit Empfehlung,
 // Test neu starten, lautes Lesen messen, Sicherung.
 import { h, knopf, zeige, welt, dialog, einmal } from './ui.js';
-import { zusatzBericht } from './kern/knobel.js';
-import { z, sichere, KINDER, KIND_INFO, EMPFEHLUNG, testErgebnis, testNeuStarten, holeAlltag, holeTest, heute, tageZwischen, ersetzeZustand, holeBank, datumText, namenFehlen } from './zustand.js';
+import { zusatzBericht, nachschubZusatz } from './kern/knobel.js';
+import { z, sichere, KINDER, KIND_INFO, EMPFEHLUNG, testErgebnis, testNeuStarten, holeAlltag, holeTest, heute, tageZwischen, ersetzeZustand, holeBank, datumText, namenFehlen, APP_VERSION } from './zustand.js';
 import { berichtTest, klasseText, klasseKurz, spanneText, tempoText } from './ablauf.js';
 import { thetaZuLs } from './kern/skala.js';
 import { exportiere, importiere, istHomescreen, bitteDauerhaft, loescheAlles } from './speicher.js';
@@ -41,6 +41,7 @@ function uebersicht(el) {
     else for (const b of einstufung(k)) zeilen.push(spanneZeile(b));
     const letzte = K.verlauf.slice(-1)[0];
     zeilen.push(h('p', { class: 'leise' }, letzte ? `Zuletzt geübt: ${letzte.datum} (${letzte.minuten} Min., ${letzte.aufgaben} Aufgaben)` : 'Noch keine Übungsrunde.'));
+    if (K.phase === 'ueben') { const nb = nachschub(k); if (nb.length) zeilen.push(nachschubKarte(k, nb)); }
     zeilen.push(knopf('Mehr zu ' + KIND_INFO[k].name, () => zeigeEltern(k), 'zweit'));
     el.appendChild(h('div', { class: 'karte' }, ...zeilen));
   }
@@ -62,6 +63,31 @@ function einstufung(k) {
     for (const kb of ['KN', 'GE', 'RS', 'EN', 'WW'].map(x => zusatzBericht(app, x))) if (kb) out.push({ name: kb.name, ls: kb.ls, lo: kb.lo, hi: kb.hi, se: (kb.hi - kb.ls) / (1.64 * 8), unsicher: kb.grob });
   }
   return out;
+}
+// Nachschub: Wo braucht das Kind neue Inhalte? (Decke in Mathe/Lesen oder in Zusatzbereichen, viele Wiederholungen)
+function nachschub(k) {
+  const out = [];
+  try {
+    const app = holeAlltag(k), bank = holeBank();
+    const lese = k === 'insel' ? 'HV' : 'LV';
+    for (const [b, name, pools] of [['M', 'Mathe', ['RE', 'SA']], ['L', 'Lesen', [lese]]]) {
+      const maxLs = Math.max(...pools.flatMap(p => bank.pools[p].map(i => i.ls)));
+      const ls = thetaZuLs(app.bereiche[b].theta, b);
+      if (ls >= maxLs - 6) out.push(`${name}: oberste Stufe fast erreicht (Kind LS ${Math.round(ls)}, schwerste Aufgabe LS ${Math.round(maxLs)}) – schwerere Aufgaben nötig`);
+    }
+    out.push(...nachschubZusatz(app));
+  } catch (e) { /* ohne Alltag kein Bericht */ }
+  return out;
+}
+function nachschubKarte(k, liste) {
+  const text = `Nachschub-Bericht Lern-App (${KIND_INFO[k].welt}, Version ${APP_VERSION}, ${heute()}):
+- ` + liste.join('
+- ');
+  const kopieren = async () => {
+    try { await navigator.clipboard.writeText(text); await dialog('Kopiert', h('p', null, 'Der Bericht ist kopiert. Schick ihn an Claude und bitte um neue Inhalte.')); }
+    catch (e) { await dialog('Bericht', h('pre', { style: 'white-space:pre-wrap' }, text)); }
+  };
+  return h('div', { class: 'rueck' }, h('strong', null, '📦 Neue Inhalte nötig'), h('ul', null, ...liste.map(x => h('li', null, x))), knopf('Bericht kopieren', kopieren, 'zweit'));
 }
 function spanneZeile(b) {
   const pos = (ls) => Math.max(0, Math.min(100, (ls - 5) / 0.95)); // LS 5..100

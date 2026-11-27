@@ -28,4 +28,14 @@ for (const key of ['KN', 'GE', 'RS', 'EN', 'WW']) for (const w of [15, 40, 75]) 
   if (!gut) fehler++;
 }
 console.log(fehler ? `${fehler} Fehler` : 'Knobel-Test bestanden.');
-process.exit(fehler ? 1 : 0);
+if (fehler) process.exitCode = 1;
+// Nachschub-Erkennung: starkes Kind an der Decke von Wissen und Welt, viele Wiederholungen
+{
+  const { nachschubZusatz } = await import('../app/js/kern/knobel.js');
+  const app = { heute: 0 }; const r = rngAus('nach', 1);
+  for (let i = 0; i < 400; i++) { app.heute = Math.floor(i / 5); const { item } = zusatzAuftrag(app, 'WW', 40); zusatzVerbuche(app, item, r.u() < 0.97 ? 1 : 0, 5, app.heute); }
+  const nb = nachschubZusatz(app);
+  console.log('Nachschub:', nb.length ? nb.slice(0, 2).join(' | ') : 'nichts');
+  if (!nb.some(x => /oberste Stufe/.test(x))) { console.log('FEHLER Nachschub: Decke nicht erkannt'); process.exitCode = 1; }
+  const leer = nachschubZusatz({ heute: 0 }); if (leer.length) { console.log('FEHLER Nachschub ohne Daten'); process.exitCode = 1; }
+}
