@@ -165,7 +165,7 @@ function profil(k, el) {
 
 // ---------- Lautes Lesen (WCPM) ----------
 function lautLesen(el) {
-  el.appendChild(h('div', { class: 'karte' }, h('h2', null, 'Lautes Lesen messen'), h('p', null, 'Das Kind liest 60 Sekunden laut vor. Du tippst Wörter an, die falsch gelesen werden. Am Ende tippst du das letzte gelesene Wort an.'),
+  el.appendChild(h('div', { class: 'karte' }, h('h2', null, 'Lautes Lesen messen'), h('p', null, 'Das Kind liest 60 Sekunden laut vor. Du tippst Wörter an, die falsch gelesen werden. Nach den 60 Sekunden schaltet die App um: Dann tippst du einmal das letzte gelesene Wort an – das zählt nicht als Fehler.'),
     ...KINDER.map(k => knopf(`Mit ${KIND_INFO[k].name} messen`, () => lesenWaehlen(k), 'breit zweit'))));
 }
 function lesenWaehlen(k) {
