@@ -9,11 +9,12 @@ import { rngAus } from './inhalte/werkzeug.js';
 import { heftNeutralT } from './heft.js';
 import { istGeraten } from './kern/modell.js';
 import { zusatzAuftrag, zusatzVerbuche } from './kern/knobel.js';
-const ZUSATZ_TEIL = { knobel: 'KN', geo: 'GE', rs: 'RS', en: 'EN' };
+const ZUSATZ_TEIL = { knobel: 'KN', geo: 'GE', rs: 'RS', en: 'EN', ww: 'WW' };
 // Startwert der Zusatzbereiche: Knobeln/Geometrie an Mathe, Rechtschreibung an Lesen, Englisch an der Klasse (Englisch beginnt in Bayern in Kl. 3)
 function zusatzStart(app, key) {
   if (key === 'RS') return Math.max(5, thetaZuLs(app.bereiche.L.theta, 'L') - 8);
   if (key === 'EN') return app.kind === 'insel' ? 8 : 25;
+  if (key === 'WW') return app.kind === 'insel' ? 12 : 40;
   return Math.max(5, thetaZuLs(app.bereiche.M.theta, 'M') - 5);
 }
 
@@ -83,7 +84,7 @@ export function planeSitzung(kind, wd, sitzungNr, app) {
     for (const x of app.pruefAufgabenHeute()) plan.push({ teil: 'kt', ...x });
     for (let i = 0; i < 3; i++) plan.push({ teil: 'abruf', bereich: mathe ? 'M' : 'L' });
     // Stufe 2 und 3 im Wechsel: je Runde 2 Zusatzaufgaben aus Knobeln, Geometrie, Rechtschreibung, Englisch
-    const zi = [['knobel', 'en'], ['geo', 'rs'], ['en', 'knobel'], ['rs', 'geo']][sitzungNr % 4];
+    const zi = [['knobel', 'en'], ['geo', 'rs'], ['ww', 'knobel'], ['en', 'geo'], ['rs', 'ww']][sitzungNr % 5];
     plan.push({ teil: zi[0] }, { teil: zi[1] });
     if (mathe) { for (let i = 0; i < 4; i++) plan.push({ teil: 'neu', bereich: 'M' }); for (let i = 0; i < 3; i++) plan.push({ teil: 'transfer', p: 0.75 }); }
     else { for (let i = 0; i < 4; i++) plan.push({ teil: 'lesen', bereich: 'L' }); plan.push({ teil: 'transfer', p: 0.75 }); }
@@ -94,7 +95,7 @@ export function planeSitzung(kind, wd, sitzungNr, app) {
     for (let i = 0; i < 4; i++) plan.push({ teil: 'abruf', bereich: null });
     for (let i = 0; i < 4; i++) plan.push({ teil: 'neu', bereich: 'M' });
     for (let i = 0; i < 2; i++) plan.push({ teil: 'neu', bereich: 'L' });
-    plan.push({ teil: 'knobel' }, { teil: 'en' }, { teil: 'geo' }, { teil: 'rs' }, { teil: sitzungNr % 2 ? 'en' : 'rs' }); // Stufe 2 und 3 (Englisch etwas öfter)
+    plan.push({ teil: 'knobel' }, { teil: 'en' }, { teil: 'geo' }, { teil: 'rs' }, { teil: ['en', 'ww', 'rs'][sitzungNr % 3] }); // Stufe 2–4 (Englisch etwas öfter)
     plan.push({ teil: 'transfer', p: 0.70, typ: 'ueb' });
     if (sitzungNr % 2 === 0) plan.push({ teil: 'transfer', p: 0.70, typ: 'feh' });
     while (plan.filter(p => p.teil === 'transfer').length < 6) plan.push({ teil: 'transfer', p: 0.70 });
@@ -189,7 +190,7 @@ export function neueSitzung(kind, wd, sitzungNr, app) {
 }
 
 // ---------- Elternbericht aus Testergebnis / Alltag ----------
-const SKALA_NAME = { KN: 'Logik und Knobeln', GE: 'Geometrie und Daten', RS: 'Rechtschreibung', EN: 'Englisch', RE: 'Rechnen', SA: 'Sachrechnen', LV: 'Lesen (selbst gelesen)', HV: 'Hörverstehen (vorgelesen)', GA: 'Grundaufgaben' };
+const SKALA_NAME = { WW: 'Wissen und Welt', KN: 'Logik und Knobeln', GE: 'Geometrie und Daten', RS: 'Rechtschreibung', EN: 'Englisch', RE: 'Rechnen', SA: 'Sachrechnen', LV: 'Lesen (selbst gelesen)', HV: 'Hörverstehen (vorgelesen)', GA: 'Grundaufgaben' };
 export function berichtTest(erg) {
   const zeilen = [];
   for (const [k, s] of Object.entries(erg.skalen)) {

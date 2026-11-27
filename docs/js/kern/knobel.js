@@ -6,6 +6,7 @@ import { KNOBEL_STUFEN, knobelAufgabe } from '../inhalte/logik.js';
 import { GEO_STUFEN, geoAufgabe } from '../inhalte/geometrie.js';
 import { RS_STUFEN, rsAufgabe } from '../inhalte/rechtschreibung.js';
 import { EN_STUFEN, enAufgabe } from '../inhalte/englisch.js';
+import { WW_STUFEN, wwAufgabe } from '../inhalte/welt.js';
 import { rngAus } from '../inhalte/werkzeug.js';
 
 export const ZUSATZ = {
@@ -13,6 +14,7 @@ export const ZUSATZ = {
   GE: { feld: 'geo', teil: 'geo', name: 'Geometrie und Daten', stufen: GEO_STUFEN, erzeuge: geoAufgabe },
   RS: { feld: 'rs', teil: 'rs', name: 'Rechtschreibung', stufen: RS_STUFEN, erzeuge: rsAufgabe },
   EN: { feld: 'en', teil: 'en', name: 'Englisch', stufen: EN_STUFEN, erzeuge: enAufgabe },
+  WW: { feld: 'ww', teil: 'ww', name: 'Wissen und Welt', stufen: WW_STUFEN, erzeuge: wwAufgabe },
 };
 // Einmal-Erklärung je Aufgabenart (mit Beispiel): erklärt nur das Format, nicht die Lösung
 const KARTEN = {

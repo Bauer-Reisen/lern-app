@@ -5,7 +5,7 @@ import { BAU } from './version.js';
 
 const N = (k) => KIND_INFO[k].name;
 const tour = () => [
-  ['Willkommen!', `Diese App übt mit ${N('insel')} und ${N('sternwarte')} Mathe, Lesen, Logik und Knobeln, Geometrie und Daten, Rechtschreibung und Englisch – jeden Tag ein bisschen, immer passend zum eigenen Können. Alles bleibt auf diesem Gerät. Es gibt kein Konto und keine Werbung.`],
+  ['Willkommen!', `Diese App übt mit ${N('insel')} und ${N('sternwarte')} Mathe, Lesen, Logik und Knobeln, Geometrie und Daten, Rechtschreibung, Englisch sowie Wissen und Welt – jeden Tag ein bisschen, immer passend zum eigenen Können. Alles bleibt auf diesem Gerät. Es gibt kein Konto und keine Werbung.`],
   ['Zwei eigene Welten', `${N('insel')} hat „Die Insel“ mit dem Fuchs Funki: große Knöpfe, alles wird vorgelesen. ${N('sternwarte')} hat „Die Sternwarte“. Jedes Kind öffnet seine Welt mit einem Bilder-Code und sieht nur sich selbst.`],
   ['Zuerst die Expedition', 'An den ersten Tagen findet die App heraus, was jedes Kind schon kann. Das dauert mehrere kurze Tage. Es gibt dabei kein Richtig oder Falsch – Raten, Müdigkeit und schlechte Tage erkennt die App selbst.'],
   ['Dann jeden Tag eine Runde', `${N('insel')} übt etwa 10 Minuten, ${N('sternwarte')} etwa 18. Die Runde endet immer nach einer gelösten Aufgabe. Danach gibt es keinen „Weiter"-Knopf. Ruhetage und Abendruhe sind eingestellt.`],
@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.9.0', punkte: ['Neu: Wissen und Welt (Körper, Tiere, Pflanzen, Wetter, Erde und Weltall, Deutschland und Bayern, Technik, früher und heute, Gesundheit). Jede Erklärung nennt ihre Quelle.'] },
   { version: '1.8.0', punkte: ['Extra-Jubel: Klappt eine Aufgabenart, die vorher mindestens zweimal schiefging, endlich beim ersten Versuch, gibt es einen großen, hüpfenden Jubel (z. B. „WUHUUU! Das war vorher schwer – und jetzt kannst du es!“).'] },
   { version: '1.7.1', punkte: ['Lob kinderfreundlicher und kürzer (z. B. „Super, das stimmt!“). Nach einem zweiten Versuch wird das Dranbleiben gelobt.'] },
   { version: '1.7.0', punkte: ['Rechtschreibung: Neu sind Diktat-Aufgaben. Das Kind hört ein Wort und schreibt es selbst, die Autokorrektur des Geräts ist dabei aus.', 'Englisch: Neu ist Nachsprechen von Wörtern und Sätzen. Ein Erwachsener tippt danach „Gut gesagt“, „Fast“ oder „Noch üben“. Ohne Erwachsenen zählt die Aufgabe nicht.'] },
