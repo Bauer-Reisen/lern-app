@@ -8,7 +8,7 @@ import { rngAus } from '../app/js/inhalte/werkzeug.js';
 let fehler = 0;
 for (const [stufen, erz] of [[KNOBEL_STUFEN, knobelAufgabe], [GEO_STUFEN, geoAufgabe], [RS_STUFEN, rsAufgabe], [EN_STUFEN, enAufgabe]]) for (const st of stufen) for (let j = 0; j < 200; j++) {
   const a = erz(rngAus('kt', st.id, j), st);
-  const ok = a.art === 'wahl' && Array.isArray(a.wahl) && a.wahl.length >= 2 && a.antwort >= 0 && a.antwort < a.wahl.length && new Set(a.wahl).size === a.wahl.length && a.text && a.erklaerung && (!a.sprache || a.sprech) && !/undefined|NaN/.test(a.text + a.wahl.join() + a.erklaerung);
+  const ok = (a.art === 'wort' ? typeof a.antwort === 'string' && a.antwort.length > 1 : a.art === 'wahl' && Array.isArray(a.wahl) && a.wahl.length >= 2 && a.antwort >= 0 && a.antwort < a.wahl.length && new Set(a.wahl).size === a.wahl.length) && a.text && a.erklaerung && (!a.sprache || a.sprech) && !/undefined|NaN/.test(a.text + (a.wahl || []).join() + a.erklaerung);
   if (!ok) { fehler++; if (fehler < 5) console.log('Fehler', st.id, JSON.stringify(a)); }
 }
 // Messung: Kind mit wahrer Stufe w, beginnt bei 20

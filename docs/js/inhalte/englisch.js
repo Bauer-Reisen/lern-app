@@ -41,7 +41,14 @@ const GRAMMATIK = {
 };
 const REGEL = { s: 'he/she/it: an das Verb kommt ein -s.', plural: 'Diese Mehrzahl ist unregelmäßig oder hat eine Sonderregel – merken!', past: 'Gestern/letzte Woche: Vergangenheit (past simple). Viele Verben sind unregelmäßig.', do: 'Fragen mit he/she/it: Does, sonst Do.', komp: 'Kurze Wörter: -er/-est. Lange Wörter: more/most.' };
 
+const SPRECHSAETZE = ['My name is Ben.', 'I am nine years old.', 'I like apples.', 'I have got a dog.', 'Can I have some water, please?', 'It is sunny today.', 'Where is the bathroom?', 'Thank you very much.', 'My favourite colour is blue.', 'I live in Germany.'];
 const ARTEN = {
+  // Sprechen: Kind hört, spricht nach; ein Erwachsener bewertet mit 3 Tasten (Auftrag: Eltern-Bestätigung)
+  sprechen(r, st) {
+    const satz = st.saetze ? r.waehle(SPRECHSAETZE) : r.waehle(WORT)[0];
+    const wahl = ['👍 Gut gesagt', '👌 Fast', '🔁 Noch üben'];
+    return { text: `🗣️ Hör zu und sprich laut nach: „${satz}“`, sprech: satz, sprache: EN, art: 'wahl', wahl, antwort: 0, wahlLang: true, elternTaste: true, hinweis: 'Tippe auf 🔊, hör noch einmal genau hin und sprich langsam nach.', erklaerung: `So klingt es: „${satz}“. Hör es dir mit 🔊 noch einmal an.` };
+  },
   hoerBild(r, st) {
     const pool = st.farben ? FARBEN : WORT; const w = r.waehle(pool);
     const { wahl, antwort } = auswahl(r, w[2], r.mischen(pool.filter(x => x !== w)).slice(0, 3).map(x => x[2]));
@@ -90,7 +97,9 @@ export const EN_STUFEN = [
   { id: 'en-zahl', art: 'hoerZahl', ls: 15 },
   { id: 'en-lese', art: 'leseBild', ls: 20 },
   { id: 'en-bildwort', art: 'bildWort', ls: 25 },
+  { id: 'en-sprechWort', art: 'sprechen', ls: 18 },
   { id: 'en-frage', art: 'frage', ls: 32 },
+  { id: 'en-sprechSatz', art: 'sprechen', saetze: true, ls: 40 },
   { id: 'en-vokabel', art: 'vokabel', ls: 37 },
   { id: 'en-s', art: 'grammatik', regel: 's', ls: 42 },
   { id: 'en-satz', art: 'satz', ls: 46 },

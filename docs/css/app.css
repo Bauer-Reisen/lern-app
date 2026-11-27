@@ -27,6 +27,7 @@ button.breit { width: 100%; margin: 6px 0; }
 button:focus-visible { outline: 3px solid #f5b400; outline-offset: 2px; }
 input, select { font: inherit; padding: 10px 12px; border: 2px solid var(--rand); border-radius: 12px; background: #fff; color: #1d2733; min-height: 48px; }
 input.zahl { width: 9em; text-align: center; font-size: 1.4em; }
+input.wort { width: 12em; text-align: center; font-size: 1.4em; }
 label { display: block; margin: 8px 0 4px; }
 
 /* Kopfzeile */

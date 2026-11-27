@@ -26,6 +26,7 @@ const KARTEN = {
   'GE:massstab': 'So geht’s: 1 : 1 000 heißt: 1 cm auf der Karte sind 1 000 cm in echt, also 10 m.',
   'GE:zentral': 'So geht’s: Erst die Zahlen der Größe nach sortieren. Beispiel: 7, 2, 9 → 2, 7, 9. Die Mitte ist 7, die Spannweite ist 9 − 2 = 7.',
   'EN:hoerBild': 'So geht’s: Tippe auf 🔊 und hör das englische Wort. Dann tippe auf das passende Bild. Du darfst so oft hören, wie du willst.',
+  'EN:sprechen': 'Für Erwachsene: Das Kind hört das Englische und spricht es laut nach. Danach tippt ein Erwachsener, wie gut es geklappt hat: „Gut gesagt“, „Fast“ oder „Noch üben“. Ohne Erwachsenen bitte „Weiß ich noch nicht“ tippen.',
   'EN:grammatik': 'So geht’s: In dem englischen Satz fehlt ein Wort (…). Wähle die Form, die richtig passt.',
   'RS:dass': 'So geht’s: Kannst du „dieses“ oder „welches“ einsetzen? Dann schreibt man „das“. Sonst „dass“.',
 };

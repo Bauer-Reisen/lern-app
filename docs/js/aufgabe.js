@@ -64,12 +64,20 @@ export function zeigeAufgabe(ziel, auf, opt) {
     const kurz = auf.wahl.every(w => String(w).length <= 6);
     const box = h('div', { class: 'wahl' + (bildWahl ? ' bilder' : kurz && auf.wahl.length <= 4 ? ' zwei kurz' : '') });
     auf.wahl.forEach((w, i) => box.appendChild(knopf(String(w), () => abgeben({ wahl: i }, box.children[i]))));
+    if (auf.elternTaste) eingabe.appendChild(h('p', { class: 'leise' }, 'Erwachsene tippen, wie gut es geklappt hat:'));
     eingabe.appendChild(box);
   } else if (auf.art === 'zahl') {
     const inp = h('input', { class: 'zahl', inputmode: 'decimal', autocomplete: 'off', 'aria-label': 'Antwort' });
     inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') ok(); });
     const ok = () => { if (inp.value.trim()) abgeben({ text: inp.value }); };
     eingabe.appendChild(h('div', { class: 'eingabe' }, inp, auf.einheit ? h('span', null, auf.einheit) : null, knopf('Fertig', ok)));
+    leseEingabe = () => inp;
+  } else if (auf.art === 'wort') {
+    // Diktat: Autokorrektur und Rechtschreibprüfung des Geräts aus, sonst würde das Gerät die Schreibung verbessern
+    const inp = h('input', { class: 'wort', type: 'text', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Wort' });
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') ok(); });
+    const ok = () => { if (inp.value.trim()) abgeben({ text: inp.value }); };
+    eingabe.appendChild(h('div', { class: 'eingabe' }, inp, knopf('Fertig', ok)));
     leseEingabe = () => inp;
   } else if (auf.art === 'zahlen') {
     const felder = auf.felder.map(f => h('input', { class: 'zahl', inputmode: 'decimal', 'aria-label': f }));

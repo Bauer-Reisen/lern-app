@@ -20,6 +20,7 @@ const rundreise = (obj, Klasse, cfg, u) => { const j = JSON.parse(JSON.stringify
 function richtigeEingabe(auf) {
   if (auf.fehlt) return { fehlt: auf.fehlt.richtig };
   if (auf.art === 'wahl') return { wahl: auf.antwort };
+  if (auf.art === 'wort') return { text: ' ' + auf.antwort + ' ' };
   if (auf.art === 'zahl') return { text: String(auf.antwort).replace('.', ',') };
   if (auf.art === 'zahlen') return { felder: auf.antwort.map(String) };
   if (auf.art === 'bruch') return { z: String(auf.antwort.z), n: String(auf.antwort.n) };

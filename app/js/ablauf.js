@@ -53,6 +53,7 @@ export function istRichtig(auf, eingabe) {
   if (eingabe && eingabe.fehlt) return false;
   switch (auf.art) {
     case 'wahl': return eingabe && eingabe.wahl === auf.antwort;
+    case 'wort': return !!eingabe && String(eingabe.text || '').trim().replace(/\s+/g, ' ') === auf.antwort;
     case 'zahl': { const z = leseZahl(eingabe && eingabe.text); return Number.isFinite(z) && Math.abs(z - auf.antwort) < 1e-9 + (Number.isInteger(auf.antwort) ? 0 : 0.0051); }
     case 'zahlen': return eingabe && Array.isArray(eingabe.felder) && auf.antwort.every((v, i) => Math.abs(leseZahl(eingabe.felder[i]) - v) < 1e-9);
     case 'bruch': {
@@ -140,7 +141,8 @@ export function verbucheAntwort(app, zust, auftrag, r, kind) {
     return {};
   }
   if (ZUSATZ_TEIL[a.teil]) {
-    zusatzVerbuche(app, a.item, r.wn ? 0 : r.x, r.t, app.heute || 0);
+    // Sprechen ohne Erwachsenen ("Weiß ich noch nicht") zählt nicht für die Messung
+    if (!(r.wn && a.item.a.elternTaste)) zusatzVerbuche(app, a.item, r.wn ? 0 : r.x, r.t, app.heute || 0);
     zust.zeit += r.t; zust.bild = bildSek(zust) + (r.tBild != null ? r.tBild : r.t);
     return {};
   }

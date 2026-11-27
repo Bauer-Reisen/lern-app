@@ -41,6 +41,13 @@ const TIPP = {
 };
 
 const ARTEN = {
+  // Diktat: Wort hören und selbst schreiben (Groß/klein zählt)
+  diktat(r, st) {
+    const w = r.waehle(L[st.liste])[0];
+    const tipp = TIPP[st.liste] || ['Sprich das Wort langsam mit.', ''];
+    const regel = st.liste === 'auslaut' ? 'Verlängern hilft (z. B. Hund – die Hunde).' : st.liste === 'ae' ? 'Ableiten hilft (z. B. Bäume – Baum).' : tipp[1];
+    return { text: '🎧 Hör zu und schreib das Wort.', sprech: `Schreibe das Wort: ${w}.`, art: 'wort', antwort: w, hinweis: tipp[0] + ' Nomen schreibt man groß.', erklaerung: `Richtig: „${w}“. ${regel}` };
+  },
   liste(r, st) {
     const w = r.waehle(L[st.liste]); const richtig = w[0];
     const falsch = st.liste === 'auslaut' || st.liste === 'ae' ? [w[1]] : w.slice(1);
@@ -88,6 +95,14 @@ export const RS_STUFEN = [
   { id: 'rs-gross', art: 'gross', ls: 58 },
   { id: 'rs-komma', art: 'komma', ls: 63 },
   { id: 'rs-fremd', art: 'liste', liste: 'fremd', ls: 70 },
+  { id: 'rsd-doppel', art: 'diktat', liste: 'doppel', ls: 22 },
+  { id: 'rsd-ie', art: 'diktat', liste: 'ie', ls: 26 },
+  { id: 'rsd-ckz', art: 'diktat', liste: 'ckz', ls: 30 },
+  { id: 'rsd-auslaut', art: 'diktat', liste: 'auslaut', ls: 35 },
+  { id: 'rsd-ae', art: 'diktat', liste: 'ae', ls: 39 },
+  { id: 'rsd-dehn', art: 'diktat', liste: 'dehn', ls: 43 },
+  { id: 'rsd-ss', art: 'diktat', liste: 'ss', ls: 50 },
+  { id: 'rsd-fremd', art: 'diktat', liste: 'fremd', ls: 76 },
 ];
 
 export function rsAufgabe(r, stufe) { return ARTEN[stufe.art](r, stufe); }
