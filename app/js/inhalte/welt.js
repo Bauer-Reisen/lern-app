@@ -2,6 +2,7 @@
 // Nur gesichertes Grundwissen. Jede Frage hat eine Quelle (Feld quelle); sie steht in der Erklärung.
 // Format je Eintrag: [Frage, richtig, [falsch …], Erklärung, Quelle]
 import { auswahl } from './werkzeug.js';
+import { WELT_MEHR } from './welt-mehr.js';
 
 const Q = {
   lp: 'LehrplanPLUS Bayern, HSU (ISB)',
@@ -85,6 +86,8 @@ const THEMEN = {
   ],
 };
 
+for (const [k, liste] of Object.entries(WELT_MEHR)) THEMEN[k].push(...liste);
+
 // Stufen: Themen nach Schwierigkeit (Einträge mit Quelle „Gymnasium“ sind schwerer)
 function ausThema(r, st) {
   const pool = THEMEN[st.thema].filter(e => (st.schwer ? e[4] === Q.lpg || e[4] === Q.bpb || e[4] === Q.nasa : e[4] !== Q.lpg));
@@ -108,6 +111,9 @@ export const WW_STUFEN = [
   { id: 'ww-erde2', thema: 'erde', schwer: true, ls: 55 },
   { id: 'ww-technik2', thema: 'technik', schwer: true, ls: 58 },
   { id: 'ww-zeit2', thema: 'zeit', schwer: true, ls: 62 },
+  { id: 'ww-koerper2', thema: 'koerper', schwer: true, ls: 56 },
+  { id: 'ww-wetter2', thema: 'wetter', schwer: true, ls: 50 },
+  { id: 'ww-heimat2', thema: 'heimat', schwer: true, ls: 54 },
 ].map(s => ({ ...s, art: 'thema' }));
 
 export function wwAufgabe(r, stufe) { return ausThema(r, stufe); }
