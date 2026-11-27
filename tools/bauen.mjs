@@ -12,6 +12,19 @@ import { pruefePrivat } from './check-privat.mjs';
 const APP = fileURLToPath(new URL('../app/', import.meta.url));
 const DOCS = fileURLToPath(new URL('../docs/', import.meta.url));
 
+// Syntax-Prüfung aller App-Skripte: ein einziger Syntaxfehler legt die ganze App lahm („wird geladen …“).
+{
+  const { spawnSync } = await import('node:child_process');
+  const alle = (d) => readdirSync(d).flatMap(n => { const p = join(d, n); return statSync(p).isDirectory() ? alle(p) : (n.endsWith('.js') ? [p] : []); });
+  const kaputt = alle(join(APP, 'js')).filter(f => {
+    const typ = f.endsWith('start-hinweis.js') ? 'commonjs' : 'module';
+    const r = spawnSync(process.execPath, ['--input-type=' + typ, '--check'], { input: readFileSync(f) });
+    if (r.status !== 0) { console.error('Syntaxfehler in ' + relative(APP, f) + ':\n' + String(r.stderr).split('\n').slice(0, 5).join('\n')); return true; }
+    return false;
+  });
+  if (kaputt.length) { console.error('Abbruch: Syntaxfehler (nichts gebaut).'); process.exit(1); }
+  console.log('Syntax-Prüfung: ok');
+}
 { const p = pruefePrivat(); if (p.treffer.length) { console.error('Abbruch: Privates gefunden (nichts gebaut):'); p.treffer.forEach(x => console.error('   ' + x)); process.exit(1); } console.log(`Privat-Prüfung: ok (${p.dateien} Dateien, ${p.woerter} Suchwörter)`); }
 
 // ---------- Symbole ----------

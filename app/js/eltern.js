@@ -80,9 +80,7 @@ function nachschub(k) {
   return out;
 }
 function nachschubKarte(k, liste) {
-  const text = `Nachschub-Bericht Lern-App (${KIND_INFO[k].welt}, Version ${APP_VERSION}, ${heute()}):
-- ` + liste.join('
-- ');
+  const text = `Nachschub-Bericht Lern-App (${KIND_INFO[k].welt}, Version ${APP_VERSION}, ${heute()}):\n- ` + liste.join('\n- ');
   const kopieren = async () => {
     try { await navigator.clipboard.writeText(text); await dialog('Kopiert', h('p', null, 'Der Bericht ist kopiert. Schick ihn an Claude und bitte um neue Inhalte.')); }
     catch (e) { await dialog('Bericht', h('pre', { style: 'white-space:pre-wrap' }, text)); }
