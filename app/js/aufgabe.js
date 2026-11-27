@@ -182,7 +182,7 @@ export function erklaerungText(auf) {
   const loes = loesungText(auf);
   if (/nicht im Text/i.test(loes)) return 'Im Text steht dazu nichts.';
   let t = auf.text; if (auf.frage && t.endsWith(auf.frage)) t = t.slice(0, -auf.frage.length);
-  const saetze = t.split(/(?<=[.!?])s+/).map(x => x.trim()).filter(Boolean);
+  const saetze = (t.match(/[^.!?]+[.!?]*/g) || []).map(x => x.trim()).filter(Boolean); // ohne Lookbehind (ältere Geräte)
   const woerter = loes.toLowerCase().split(/[^a-zäöüß0-9]+/).filter(w => w.length > 2);
   let best = null, bestN = 0;
   for (const sz of saetze) { const l = sz.toLowerCase(); const n = woerter.filter(w => l.includes(w)).length; if (n > bestN) { best = sz; bestN = n; } }

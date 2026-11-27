@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.11.2', punkte: ['Startet jetzt auch auf älteren iPads und iPhones (vorher blieb dort „Die App wird geladen …“ stehen). Startet die App trotzdem nicht, erscheint nach 8 Sekunden ein Hinweis.'] },
   { version: '1.11.0', punkte: ['Elternbereich: Die App meldet von selbst, wenn ein Kind neue Inhalte braucht (oberste Stufe fast erreicht oder Fragen schon sehr oft wiederholt). Mit „Bericht kopieren“ kannst du die Meldung weitergeben.'] },
   { version: '1.10.0', punkte: ['Lesen: 6 neue, längere Texte für Klasse 5–9 (Erzählungen sowie Sachtexte über Bienen, Plastik im Meer und Mondphasen, dazu ein Brief an die Bürgermeisterin) mit Fragen vom genauen Lesen bis zum kritischen Bewerten.'] },
   { version: '1.9.1', punkte: ['Wissen und Welt: 61 weitere Fragen (jetzt über 110), darunter Planeten, Kontinente, Stromkreis, Feuer, Wikinger, Gutenberg und Mauerfall.'] },
