@@ -1,6 +1,7 @@
 // Von Hand geschriebene Lesetexte (Skala LV/HV). Jeder Eintrag: Text, Fragen mit Lösung und Ablenkern.
 // Sachwissen steht nur in Texten mit Feld "quelle". Erzählungen sind ausgedacht und brauchen keine Quelle.
 import { auswahl } from './werkzeug.js';
+import { TEXTE_MEHR } from './lesetexte-mehr.js';
 
 // Kurze Texte für Textart und Absicht
 const MINI = [
@@ -139,7 +140,7 @@ export const LESETEXTE = [
       return { text: `Eine Redewendung: „${rw}"`, frage: `Was bedeutet „${rw}"?`, art: 'wahl', wahl, antwort, quelle: QUELLE_RW, pruef: { richtig: bed } };
     },
   },
-  ...TEXTE.map(T => ({
+  ...[...TEXTE, ...TEXTE_MEHR].map(T => ({
     id: 'lt.' + T.id, skala: 'LV', kompetenz: 'LV11', titel: T.titel, anker: [], hand: true, quelle: T.quelle, sachwissen: !!T.sach,
     stufen: T.fragen.map((q, i) => ({ id: String.fromCharCode(97 + i), ls: q.ls, q: i })),
     erzeuge(r, st) {

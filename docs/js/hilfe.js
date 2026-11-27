@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.10.0', punkte: ['Lesen: 6 neue, längere Texte für Klasse 5–9 (Erzählungen sowie Sachtexte über Bienen, Plastik im Meer und Mondphasen, dazu ein Brief an die Bürgermeisterin) mit Fragen vom genauen Lesen bis zum kritischen Bewerten.'] },
   { version: '1.9.1', punkte: ['Wissen und Welt: 61 weitere Fragen (jetzt über 110), darunter Planeten, Kontinente, Stromkreis, Feuer, Wikinger, Gutenberg und Mauerfall.'] },
   { version: '1.9.0', punkte: ['Neu: Wissen und Welt (Körper, Tiere, Pflanzen, Wetter, Erde und Weltall, Deutschland und Bayern, Technik, früher und heute, Gesundheit). Jede Erklärung nennt ihre Quelle.'] },
   { version: '1.8.0', punkte: ['Extra-Jubel: Klappt eine Aufgabenart, die vorher mindestens zweimal schiefging, endlich beim ersten Versuch, gibt es einen großen, hüpfenden Jubel (z. B. „WUHUUU! Das war vorher schwer – und jetzt kannst du es!“).'] },
