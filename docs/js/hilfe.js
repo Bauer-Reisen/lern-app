@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.8.0', punkte: ['Extra-Jubel: Klappt eine Aufgabenart, die vorher mindestens zweimal schiefging, endlich beim ersten Versuch, gibt es einen großen, hüpfenden Jubel (z. B. „WUHUUU! Das war vorher schwer – und jetzt kannst du es!“).'] },
   { version: '1.7.1', punkte: ['Lob kinderfreundlicher und kürzer (z. B. „Super, das stimmt!“). Nach einem zweiten Versuch wird das Dranbleiben gelobt.'] },
   { version: '1.7.0', punkte: ['Rechtschreibung: Neu sind Diktat-Aufgaben. Das Kind hört ein Wort und schreibt es selbst, die Autokorrektur des Geräts ist dabei aus.', 'Englisch: Neu ist Nachsprechen von Wörtern und Sätzen. Ein Erwachsener tippt danach „Gut gesagt“, „Fast“ oder „Noch üben“. Ohne Erwachsenen zählt die Aufgabe nicht.'] },
   { version: '1.6.1', punkte: ['Bei neuen Aufgabenarten (z. B. Koordinaten, Analogien, Zahlenquadrate, Schlussfolgern) erscheint beim ersten Mal eine kurze Erklärung mit Beispiel. Die Koordinaten-Aufgabe ist einfacher formuliert.'] },

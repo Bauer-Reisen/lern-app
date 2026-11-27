@@ -204,7 +204,10 @@ function naechsteUebung(k) {
   zeige(kopf, teilText ? h('p', { class: 'leise' }, teilText) : null, heft ? h('p', { class: 'leise' }, 'Jetzt das Ergebnis aus deinem ' + HEFT_NAME[k] + ' eintippen.') : null, auftrag.a.transfer && auf.typ ? einmal('transfer-' + k + '-' + auf.typ, auf.hinweis) : null, auf.karte ? einmal('karte-' + k + '-' + auftrag.a.item.vorlage, auf.karte) : null, flaeche);
   const aufStart = Date.now(); // ab hier Bildschirmzeit (nach der Heft-Pause)
   zeigeAufgabe(flaeche, auf, {
-    kind: k, modus: 'ueben', fertig: async (r) => {
+    kind: k, modus: 'ueben',
+    // Durchbruch: diese Aufgabenart hatte mindestens 2 Fehler seit dem letzten Jubel
+    durchbruch: () => { const v = auftrag.a.item.vorlage, f = K.fehler[v]; if (!f || auf.istTransfer) return false; K.gefeiert = K.gefeiert || {}; if (f.n - (K.gefeiert[v] || 0) < 2) return false; K.gefeiert[v] = f.n; sichere(); return true; },
+    fertig: async (r) => {
       const tBild = Math.min(300, (Date.now() - aufStart) / 1000); // gedeckelt: lange Pausen zählen nicht
       S.gezeigt++; if (r.x) S.richtig++;
       if (!r.x && !r.wn) {

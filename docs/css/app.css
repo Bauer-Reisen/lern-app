@@ -171,3 +171,9 @@ body.welt-sternwarte .einmal { background: #26326f; color: #e5ebff; }
   .spalten { grid-template-columns: 1fr; }
   .wahl.bilder { grid-template-columns: 1fr 1fr; }
 }
+/* Extra-Jubel bei einem Durchbruch */
+.rueck.feier { font-size: 1.25em; font-weight: 700; text-align: center; animation: feier-puls 0.6s ease-out 2; }
+.feier-bild { font-size: 2.2em; animation: feier-hops 0.8s ease-out; }
+@keyframes feier-puls { 0% { transform: scale(0.9); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes feier-hops { 0% { transform: translateY(20px) scale(0.5); opacity: 0; } 60% { transform: translateY(-10px) scale(1.2); opacity: 1; } 100% { transform: translateY(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .rueck.feier, .feier-bild { animation: none; } }

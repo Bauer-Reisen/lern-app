@@ -13,6 +13,10 @@ const LOB = {
   insel: ['Super, das stimmt!', 'Ja, richtig!', 'Toll gemacht!', 'Prima, genau so!', 'Juhu, richtig!'],
   sternwarte: ['Richtig!', 'Stimmt genau.', 'Gut gemacht!', 'Ja, passt!', 'Richtig – gut überlegt.'],
   nochmal: ['Jetzt stimmt es – gut, dass du es nochmal versucht hast!', 'Richtig! Dranbleiben hat sich gelohnt.'],
+  feier: {
+    insel: ['WUHUUU! Das war vorher schwer – und jetzt kannst du es! 💪', 'YEAH! Mega! Genau das hat letztes Mal noch nicht geklappt!', 'Wahnsinn! Du hast es geknackt! Funki macht einen Freudensprung!', 'JAAA! Richtig stark – das hast du dir erkämpft!'],
+    sternwarte: ['YES! Das hat vorher Probleme gemacht – jetzt sitzt es! 🔥', 'Mega! Genau diese Art Aufgabe hast du jetzt drauf!', 'Boom! Geknackt! Das war echt stark.', 'Wuhu! Dranbleiben zahlt sich aus – das ist jetzt deins!'],
+  },
 };
 
 export function zeigeAufgabe(ziel, auf, opt) {
@@ -133,9 +137,11 @@ export function zeigeAufgabe(ziel, auf, opt) {
     if (knopfEl) { for (const b of knopfEl.parentNode.children) b.classList.remove('gewaehlt', 'falsch'); knopfEl.classList.add(richtig ? 'richtig' : 'falsch'); }
     rueck.innerHTML = '';
     if (richtig) {
-      const liste = versuche > 1 ? LOB.nochmal : (LOB[kind] || LOB.sternwarte);
+      // Durchbruch: Aufgabenart, die vorher Probleme gemacht hat, jetzt beim ersten Versuch geschafft → Extra-Jubel
+      const feier = versuche === 1 && opt.durchbruch ? opt.durchbruch() : false;
+      const liste = feier ? LOB.feier[kind === 'insel' ? 'insel' : 'sternwarte'] : versuche > 1 ? LOB.nochmal : (LOB[kind] || LOB.sternwarte);
       const lob = liste[Math.floor(Math.random() * liste.length)];
-      rueck.appendChild(h('div', { class: 'rueck gut' }, lob));
+      rueck.appendChild(feier ? h('div', { class: 'rueck gut feier' }, h('div', { class: 'feier-bild' }, kind === 'insel' ? '🎉🌟🎉' : '🚀✨🚀'), lob) : h('div', { class: 'rueck gut' }, lob));
       if (kind === 'insel') sprich(lob);
       return weiterKnopf({ x: ersteRichtig ? 1 : 0, t, eingabe: e });
     }
