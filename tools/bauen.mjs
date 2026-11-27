@@ -64,7 +64,7 @@ const cacheListe = ['./', ...liste, 'js/version.js'];
 writeFileSync(join(APP, 'sw.js'), `// Speichert die App auf dem Gerät, damit sie ohne Internet läuft. Geschrieben von tools/bauen.mjs.
 const VERSION = 'lernapp-adaptiv-${bau}';
 const DATEIEN = ${JSON.stringify(cacheListe)};
-self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(DATEIEN)).then(() => self.skipWaiting())); });
+self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then(c => Promise.all(DATEIEN.map(d => fetch(d + (d.indexOf('?') < 0 ? '?' : '&') + 'v=' + VERSION, { cache: 'reload' }).then(a => { if (!a.ok) throw new Error(d); return c.put(d, a); }))))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x => x.indexOf('lernapp-adaptiv-') === 0 && x !== VERSION).map(x => caches.delete(x)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
