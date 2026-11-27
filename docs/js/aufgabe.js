@@ -8,7 +8,12 @@ import { zf } from './inhalte/werkzeug.js';
 import { ES_FEHLT_NICHTS } from './inhalte/transfer.js';
 import { antwortZeit } from './kern/modell.js';
 
-const LOB = ['Gut überlegt!', 'Richtig – du bist drangeblieben.', 'Stimmt! Schön genau gelesen.', 'Richtig! Gute Strategie.', 'Genau so.'];
+// Lob: kurz und kindgerecht; nach einem Fehlversuch wird das Dranbleiben gelobt
+const LOB = {
+  insel: ['Super, das stimmt!', 'Ja, richtig!', 'Toll gemacht!', 'Prima, genau so!', 'Juhu, richtig!'],
+  sternwarte: ['Richtig!', 'Stimmt genau.', 'Gut gemacht!', 'Ja, passt!', 'Richtig – gut überlegt.'],
+  nochmal: ['Jetzt stimmt es – gut, dass du es nochmal versucht hast!', 'Richtig! Dranbleiben hat sich gelohnt.'],
+};
 
 export function zeigeAufgabe(ziel, auf, opt) {
   // opt: { kind, modus, fertig(ergebnis), wnErlaubt }
@@ -128,7 +133,8 @@ export function zeigeAufgabe(ziel, auf, opt) {
     if (knopfEl) { for (const b of knopfEl.parentNode.children) b.classList.remove('gewaehlt', 'falsch'); knopfEl.classList.add(richtig ? 'richtig' : 'falsch'); }
     rueck.innerHTML = '';
     if (richtig) {
-      const lob = LOB[Math.floor(Math.random() * LOB.length)];
+      const liste = versuche > 1 ? LOB.nochmal : (LOB[kind] || LOB.sternwarte);
+      const lob = liste[Math.floor(Math.random() * liste.length)];
       rueck.appendChild(h('div', { class: 'rueck gut' }, lob));
       if (kind === 'insel') sprich(lob);
       return weiterKnopf({ x: ersteRichtig ? 1 : 0, t, eingabe: e });

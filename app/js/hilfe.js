@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.7.1', punkte: ['Lob kinderfreundlicher und kürzer (z. B. „Super, das stimmt!“). Nach einem zweiten Versuch wird das Dranbleiben gelobt.'] },
   { version: '1.7.0', punkte: ['Rechtschreibung: Neu sind Diktat-Aufgaben. Das Kind hört ein Wort und schreibt es selbst, die Autokorrektur des Geräts ist dabei aus.', 'Englisch: Neu ist Nachsprechen von Wörtern und Sätzen. Ein Erwachsener tippt danach „Gut gesagt“, „Fast“ oder „Noch üben“. Ohne Erwachsenen zählt die Aufgabe nicht.'] },
   { version: '1.6.1', punkte: ['Bei neuen Aufgabenarten (z. B. Koordinaten, Analogien, Zahlenquadrate, Schlussfolgern) erscheint beim ersten Mal eine kurze Erklärung mit Beispiel. Die Koordinaten-Aufgabe ist einfacher formuliert.'] },
   { version: '1.6.0', punkte: ['Neu: Rechtschreibung (doppelte Mitlaute, ie, ck/tz, Verlängern, Ableiten, Dehnungs-h, ss/ß, das/dass, Großschreibung, Kommas, Fremdwörter).', 'Neu: Englisch mit englischer Stimme: Hören, Wörter, Fragen und Antworten, Sätze verstehen, Grammatik (he/she -s, Mehrzahl, do/does, Vergangenheit, Steigerung).', 'Pro Runde wechseln sich Knobeln, Geometrie, Rechtschreibung und Englisch ab, jeweils mit eigenem Wert im Elternbereich.'] },
