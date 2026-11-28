@@ -18,7 +18,9 @@ export function stimmeFuer(sprache) {
 export function stopp() { try { if (hat()) window.speechSynthesis.cancel(); } catch (e) { /* nichts */ } }
 
 let laufend = null;
-export function sprich(text, fertig, sprache = 'de-DE') {
+export const LANGSAM = 0.7; // Schildkröten-Knopf: so viel langsamer als das eingestellte Tempo
+export function sprich(text, fertig, sprache = 'de-DE', faktor = 1) {
+  const rate = Math.max(0.4, tempo * faktor);
   const ende = () => { if (laufend === u) laufend = null; if (fertig) { const f = fertig; fertig = null; f(); } };
   let u = null;
   if (!hat() || !text) { ende(); return false; }
@@ -27,11 +29,11 @@ export function sprich(text, fertig, sprache = 'de-DE') {
   u.lang = sprache;
   const st = stimmeFuer(sprache);
   if (st) u.voice = st;
-  u.rate = tempo;
+  u.rate = rate;
   u.onend = ende; u.onerror = ende;
   laufend = u;
   // Sicherheitsnetz: manche Geräte melden das Ende nie
-  setTimeout(ende, vorleseDauerMs(text, tempo));
+  setTimeout(ende, vorleseDauerMs(text, rate));
   try { window.speechSynthesis.speak(u); } catch (e) { ende(); return false; }
   return true;
 }

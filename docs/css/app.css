@@ -86,6 +86,7 @@ label { display: block; margin: 8px 0 4px; }
 .rueck.hinweis { background: #fff4e0; color: #5a3608; }
 .rueck.loesung { background: #eef3ff; color: #1b2f5c; }
 .vorlesen { min-height: 44px; min-width: 44px; padding: 4px 10px; background: transparent; border: 2px solid var(--rand); color: inherit; border-radius: 12px; font-size: 1.1em; }
+.vorlese-paar { display: inline-flex; gap: 8px; }
 .unten { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; margin-top: 14px; }
 
 /* Balkenmodell */

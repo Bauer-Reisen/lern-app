@@ -36,6 +36,7 @@ export function zeigeTour(fertig) {
 
 // Neuigkeiten je Version (neueste oben)
 export const NEWS = [
+  { version: '1.12.0', punkte: ['Zwei Lautsprecher: 🔊 liest normal vor, 🐢 liest langsam vor.'] },
   { version: '1.11.5', punkte: ['Behoben: Die App startete auf manchen Geräten nicht mehr (blieb bei „Die App wird geladen …“ stehen).'] },
   { version: '1.11.2', punkte: ['Startet jetzt auch auf älteren iPads und iPhones (vorher blieb dort „Die App wird geladen …“ stehen). Startet die App trotzdem nicht, erscheint nach 8 Sekunden ein Hinweis.'] },
   { version: '1.11.0', punkte: ['Elternbereich: Die App meldet von selbst, wenn ein Kind neue Inhalte braucht (oberste Stufe fast erreicht oder Fragen schon sehr oft wiederholt). Mit „Bericht kopieren“ kannst du die Meldung weitergeben.'] },

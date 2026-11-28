@@ -1,7 +1,7 @@
 // Zeigt eine Aufgabe an und liefert die Antwort. modus: 'test' (keine Rückmeldung) oder 'ueben'
 // (erst Hinweis, dann Lösung mit kurzer Erklärung). Die Zeit läuft ab dem Ende des Vorlesens.
 import { h, knopf, dialog } from './ui.js';
-import { sprich, stopp, fuerStimme } from './sprache.js';
+import { sprich, stopp, fuerStimme, LANGSAM } from './sprache.js';
 import { istRichtig } from './ablauf.js';
 import { balkenModell, nackt } from './inhalte/schema.js';
 import { zf } from './inhalte/werkzeug.js';
@@ -29,8 +29,10 @@ export function zeigeAufgabe(ziel, auf, opt) {
   let lauf = 0; // Befund 17: erneutes Vorlesen hält die Zeit an, bis es zu Ende ist
   const nach = (g) => () => { if (g === lauf && start === null) start = Date.now(); };
   const nachVorlesen = nach(0);
-  const nochmal = () => { if (beendet) return; lauf++; if (versuche === 0) start = null; sprich(sprechText, nach(lauf), auf.sprache); };
-  const nochmalKnopf = () => h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Vorlesen', onclick: nochmal }, '🔊');
+  const nochmal = (faktor = 1) => { if (beendet) return; lauf++; if (versuche === 0) start = null; sprich(sprechText, nach(lauf), auf.sprache, faktor); };
+  const nochmalKnopf = () => h('span', { class: 'vorlese-paar' },
+    h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Vorlesen', onclick: () => nochmal(1) }, '🔊'),
+    h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Langsam vorlesen', onclick: () => nochmal(LANGSAM) }, '🐢'));
   const sek = () => antwortZeit(angezeigt, start, Date.now());
 
   const kopf = h('div', { class: 'zeile', style: 'justify-content:flex-end' });
@@ -41,7 +43,7 @@ export function zeigeAufgabe(ziel, auf, opt) {
   // Text
   if (istHV) {
     inhalt.appendChild(h('p', { class: 'leise' }, 'Hör gut zu.'));
-    inhalt.appendChild(knopf('🔊 Noch einmal hören', nochmal, 'zweit'));
+    inhalt.appendChild(h('div', { class: 'zeile' }, knopf('🔊 Noch einmal hören', () => nochmal(1), 'zweit'), knopf('🐢 Langsam hören', () => nochmal(LANGSAM), 'zweit')));
     if (auf.bild) inhalt.appendChild(bild(auf.bild, auf));
     if (auf.tabelle) inhalt.appendChild(tabelle(auf.tabelle));
   } else {

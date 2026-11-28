@@ -4,7 +4,11 @@ import { z, sichere, KIND_INFO, holeTest, sichereTest, holeAlltag, sichereAlltag
 import { aufgabeAus, neueSitzung, naechsterAuftrag, verbucheAntwort, fehlerArt, bildSek } from './ablauf.js';
 import { zeigeAufgabe, loesungText, erklaerungText } from './aufgabe.js';
 import { weltSvg, FUCHS, TELESKOP } from './welten.js';
-import { sprich } from './sprache.js';
+import { sprich, LANGSAM } from './sprache.js';
+// Zwei Lautsprecher: normal und langsam (Schildkröte)
+const vorlesePaar = (text) => h('span', { class: 'vorlese-paar' },
+  h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Vorlesen', onclick: () => sprich(text) }, '🔊'),
+  h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Langsam vorlesen', onclick: () => sprich(text, null, 'de-DE', LANGSAM) }, '🐢'));
 import { HEFT_NAME, heftPassend, sitzungsMinuten, wochenSchluessel, RUECKBLICK_FRAGEN, schreibAuftrag, heftTexte } from './heft.js';
 import { zeigeStart } from './main.js';
 const vorTagen = (n) => { const d = new Date(); d.setDate(d.getDate() - n); return datumText(d); }; // Ortszeit (Befund 16)
@@ -330,7 +334,7 @@ function abrufAusDemKopf(k, m) {
     zeige(kopf, h('h2', null, `Schau im ${HEFT_NAME[k]} nach – stimmt es?`), h('div', { class: 'unten' }, knopf('Ja', () => urteil('ja'), 'breit'), knopf('Fast', () => urteil('fast'), 'breit zweit'), knopf('Nein', () => urteil('nein'), 'breit zweit')));
     if (k === 'insel') sprich('Schau im Inselbuch nach. Stimmt es? Ja, fast oder nein?');
   };
-  zeige(kopf, h('p', null, sichtbar), k === 'insel' ? h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Vorlesen', onclick: () => sprich(frage) }, '🔊') : null, feld, knopf('Weiter ➜', pruefen, 'breit'));
+  zeige(kopf, h('p', null, sichtbar), k === 'insel' ? vorlesePaar(frage) : null, feld, knopf('Weiter ➜', pruefen, 'breit'));
   if (k === 'insel') sprich(frage);
 }
 function wochenRueckblick(k, woche) {
@@ -350,6 +354,6 @@ function schreibAufgabe(k) {
       knopf('Richtig geschrieben ✓', () => urteil(true), 'breit', { style: 'font-size:1.4em;min-height:76px' }), knopf('Noch nicht ganz', () => urteil(false), 'breit zweit'));
     sprich(T.vergleich.replace(':', '.') + ' Hast du es richtig geschrieben?');
   };
-  papierPause(k, [h('p', null, w.art === 'zahl' ? 'Hör gut zu und schreib die Zahl ins Inselbuch.' : 'Hör gut zu und schreib das Wort ins Inselbuch.'), h('button', { class: 'vorlesen', type: 'button', 'aria-label': 'Nochmal vorlesen', onclick: () => sprich(ansage) }, '🔊'), h('h2', { class: 'mitte' }, 'Ich schreibe ins Heft …'), figurWartet(k)], [['Fertig', zeigeLoesung]]);
+  papierPause(k, [h('p', null, w.art === 'zahl' ? 'Hör gut zu und schreib die Zahl ins Inselbuch.' : 'Hör gut zu und schreib das Wort ins Inselbuch.'), vorlesePaar(ansage), h('h2', { class: 'mitte' }, 'Ich schreibe ins Heft …'), figurWartet(k)], [['Fertig', zeigeLoesung]]);
   sprich(ansage + '. Tippe auf Fertig, wenn du fertig bist.');
 }
